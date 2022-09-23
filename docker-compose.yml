@@ -1,0 +1,23 @@
+version: "3.9"  # optional since v1.27.0
+
+services:
+  db:
+    image: postgres:9.4
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+
+  web:
+    image: node
+    volumes:
+      - .:/usr/src/
+    working_dir: /usr/src/
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    command: npm start
+    restart: always
+    
