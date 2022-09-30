@@ -1,38 +1,13 @@
-# create-svelte
+# Jam.brussels
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+A webapp to centeralize information about jam sessions in Brussels in one place. View when, where, what type and who is opening a jam session without having to create an account.
 
-## Creating a project
+## Why?
 
-If you're seeing this, you've probably already done this step. Congrats!
+I dislike Facebook, I dislike having to have certain people friended or needing to be in certain groups to see when and where jam sessions are being held. I dislike having to scroll through heaps and heaps of ads to find a event, or only to finally see I sessions I was looking forward to, only for it to have passed since it was buried enough 30 ads.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+Yeah, not a fan of this kind of thing. So yeah, without this made, I can finally cut ties with Facebook and fill my agenda with jam sessions without issue.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+## Design
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+UX Design is being conceived over [here](https://www.figma.com/file/gNKtt6HTorugMfGsUuNakR/jam.brussels?node-id=0%3A1) on Figma. Feel free to provide feedback or make suggestions in the issues tab of this page.
