@@ -24,6 +24,7 @@ model JamSession {
   type      String
   description String?
   image     String?
+  public    Boolean  @default(false)
 }
 
 model User {
