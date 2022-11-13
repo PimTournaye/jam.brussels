@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { formatShortDate } from '$lib/utils/DateFormatting';
 	import JamCard from '$lib/components/JamCard.svelte';
-	import { onMount } from 'svelte';
 
 	export let data: any;
 	let { todayJams, upcomingJams } = data;
@@ -28,9 +26,14 @@
 
 	<div class="mt-8">
 		<h1 class="text-bold text-2xl mx-4">Upcoming</h1>
-		{#each upcomingJams as { image, title, date, time, location, openingBand, id }}
-			<JamCard {image}{title} {date} {time} {location} {openingBand} {id} />
-		{/each}
+		
+		{#if upcomingJams}
+			{#each upcomingJams as { image, title, date, time, location, openingBand, id }}
+			<JamCard {image} {title} {date} {time} {location} {openingBand} {id} />
+			{/each}
+		{:else}
+			<h1 class="text-bold text-2xl">No upcoming events</h1>
+		{/if}
 	</div>
 </section>
 

@@ -1,13 +1,16 @@
-export const matchDateToToday = (date: Date) => {
-  const today = new Date().getDate()
-  const dateToCheck = new Date(date).getDate()
-  return today === dateToCheck
-}
-
-// Check the date of an event starting from tomorrow to the end of the two next weeks
-export const checkUpcomingDate = (date: Date) => {
+// Check if given date matches today's date
+export const checkIfDateIsToday = (date: Date) => {
+  if (!date) return false;
   const today = new Date();
-  const twoWeeksFromNow = new Date();
-  twoWeeksFromNow.setDate(today.getDate() + 14);
-  return date >= today && date <= twoWeeksFromNow;
-}
+  return date.getDate() === today.getDate() &&
+    date.getMonth() === today.getMonth() &&
+    date.getFullYear() === today.getFullYear();
+};
+
+// Check if given data is within the next two weeks
+export const checkIfDateIsUpcoming = (date: Date) => {
+  const today = new Date();
+  const twoWeeks = new Date();
+  twoWeeks.setDate(today.getDate() + 14);
+  return date >= today && date <= twoWeeks;
+};
