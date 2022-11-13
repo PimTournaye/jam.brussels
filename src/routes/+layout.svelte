@@ -7,6 +7,6 @@
 	<Nav />
 </header>
 
-<main class="mx-3 lg:mx-40">
+<main class="lg:mx-40">
 	<slot />
 </main>
