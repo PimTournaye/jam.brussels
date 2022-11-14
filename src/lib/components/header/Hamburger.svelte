@@ -6,6 +6,13 @@
 
   export let ariaLabel = 'toggle menu'
   export let width: string | number = 40
+
+  //disable scroll when menu is open
+  $: if (open) {
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflow = 'auto'
+  }
 </script>
 
 <button on:click={onClick} aria-expanded={open} aria-label={ariaLabel}>

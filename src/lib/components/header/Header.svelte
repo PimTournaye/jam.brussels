@@ -11,8 +11,8 @@
 	};
 </script>
 
-<header>
-	<div class="flex justify-between h-20 pl-2 pr-4 py-5 bg-black">
+<header class="bg-log-cabin">
+	<div class="flex justify-between h-20 pl-2 pr-4 py-5 bg-log-cabin">
 		<Hamburger {open} {onClick} />
 		<div class="logo">
 			<a href="/">
@@ -27,7 +27,7 @@
 			class="flex flex-col absolute
 		space-y-12
 		px-4 pt-8 h-full w-full
-		backdrop-blur-md
+		backdrop-blur-xl
 		"
 		>
 			<div
