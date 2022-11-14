@@ -40,9 +40,11 @@
     align-items: center;
     overflow: hidden;
   }
-
+  
   svg {
     transition: transform var(--transition-duration);
+    transition: border-color var(--transition-duration);
+    border-color: transparent;
   }
 
   .top {
@@ -62,8 +64,12 @@
 
   .open {
     transform: rotate(45deg);
+    border-radius: 100%;
+    border-color: #ECEDE6;
+    border-width: 2px;
+    border-style: solid;
+    transition: border-color var(--transition-duration);
   }
-
   .open .top,
   .open .bottom {
     stroke-dashoffset: -64px;
