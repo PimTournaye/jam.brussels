@@ -11,12 +11,13 @@
 	export let location: string;
 	export let openingBand: string;
 	export let id: string;
+	export let color: string;
 </script>
 
 <a href="/jams/{id}">
 	<div class="rounded-lg max-h-100 w-full mt-12 mx-1">
 		<img class="" src="https://source.unsplash.com/1600x900/?music" alt="Picture of jam at {location}" />
-		<h1 class="text-2xl font-bold bg-tulip-tree px-4 py-2 text-log-cabin">{title}</h1>
+		<h1 class="text-2xl font-bold bg-{color} px-4 py-2 text-log-cabin">{title}</h1>
 
 		<div class="p-4 flex rounded-b-lg bg-cararra">
 			<div class="w-1/2">
