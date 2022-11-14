@@ -29,7 +29,7 @@
 		</div>
 		{:else}
 			{#each todayJams as { image, title, date, startTime, endTime, location, openingBand, id }}
-			<JamCard {image} {title} {date} {startTime} {endTime} {location} {openingBand} color={'tulip-gold'}{id} />
+			<JamCard {image} {title} {date} {startTime} {endTime} {location} {openingBand} color={'tulip-gold'} {id} />
 			{/each}
 		{/if}
 	</div>
