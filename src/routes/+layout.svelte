@@ -1,11 +1,10 @@
 <script lang="ts">
-	import Nav from '$lib/components/Nav.svelte';
-	import '../app.css';
+	import Header from '$lib/components/header/Header.svelte';
+	import Nav from '$lib/components/header/Nav.svelte';
+	import '../app.scss';
 </script>
 
-<header>
-	<Nav />
-</header>
+<Header />
 
 <main class="lg:mx-40">
 	<slot />
