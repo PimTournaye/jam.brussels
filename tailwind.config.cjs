@@ -6,7 +6,7 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
-      'log-cabin': {
+      'log-cabin': { // BLACK
         DEFAULT: "#111613",
         '50': '#f5f8f5',
         '100': '#dfe8e1',
@@ -19,7 +19,7 @@ module.exports = {
         '800': '#2f4036',
         '900': '#111613',
       },
-      'cinnabar': {
+      'cinnabar': { // RED
         DEFAULT: '#DF3F1F',
         '50': '#F6C9BF',
         '100': '#F4B9AE',
@@ -32,7 +32,7 @@ module.exports = {
         '800': '#4B150A',
         '900': '#1A0704'
       },
-      'tulip-tree': {
+      'tulip-tree': { // YELLOW
         DEFAULT: '#E8AE3B',
         '50': '#FBF2DF',
         '100': '#F9EACD',
@@ -45,7 +45,7 @@ module.exports = {
         '800': '#6E4D0D',
         '900': '#3C2A07'
       },
-      'cararra': {
+      'cararra': { // WHITE
         DEFAULT: '#ECEDE6',
         '50': '#FFFFFF',
         '100': '#FFFFFF',
