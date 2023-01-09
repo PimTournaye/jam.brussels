@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { browser } from '$app/environment'
+
   export let open = false
   export let onClick = (): void => {
     open = !open
@@ -8,11 +10,13 @@
   export let width: string | number = 40
 
   //disable scroll when menu is open
+  if (browser) {
   $: if (open) {
     document.body.style.overflow = 'hidden'
   } else {
     document.body.style.overflow = 'auto'
   }
+}
 </script>
 
 <button on:click={onClick} aria-expanded={open} aria-label={ariaLabel}>

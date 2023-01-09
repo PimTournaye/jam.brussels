@@ -15,7 +15,7 @@ export const formatFullTime = (date: Date) => {
   const ampm = hours >= 12 ? 'pm' : 'am'
   const hour12 = hours % 12
   const hour = hour12 === 0 ? 12 : hour12
-  const min = minutes < 10 ? '0' + minutes : minutes
+  const min = minutes < 10 ? `0${minutes}` : minutes
   return `${hour}:${min}${ampm}`
 }
 
