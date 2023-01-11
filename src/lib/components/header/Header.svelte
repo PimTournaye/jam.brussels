@@ -1,14 +1,21 @@
 <script lang="ts">
 	import Hamburger from './Hamburger.svelte';
-	import { fly } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import logo from './logo-dark.svg';
-
-	let loggedIn = false;
+	import { navigating } from '$app/stores';
 
 	export let open = false;
 	export let onClick = (): void => {
 		open = !open;
 	};
+
+	$: if($navigating) {
+		open = false;
+	}
+
+	export let data;
+
+	const {session} = data;
 </script>
 
 <header class="bg-log-cabin">
@@ -23,7 +30,8 @@
 
 	{#if open}
 		<nav
-			transition:fly={{ y: 200, duration: 400 }}
+		in:fade={{ duration: 100 }}
+		out:fade={{ duration: 100 }}
 			class="flex flex-col absolute
 		space-y-12
 		px-4 pt-8 h-full w-full
@@ -35,14 +43,15 @@
 			flex flex-col space-y-12
 			line line--m2"
 			>
-				{#if !loggedIn}
-					<a href="/login" class="station station--default">Login / Signup</a>
+				{#if session}
+				<a href="/login" class="station station--default">Login / Signup</a>
 				{:else}
-					<a href="/logout" class="station station--default">Logout</a>
+				<a href="/profile" class="station station--default">Profile</a>
 				{/if}
 				<a href="/jams" class="station station--default">Jams</a>
-				<a href="/submit" class="station station--default">Submit Jam Session</a>
+				<a href="/jams/submit" class="station station--default">Submit Jam Session</a>
 				<a href="/info" class="station station--end">FAQ & Info</a>
+				
 			</div>
 		</nav>
 	{/if}
