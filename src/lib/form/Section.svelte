@@ -9,24 +9,35 @@
     <h2>{title}</h2>
   </div>
   <div class="content">
-    <p>{description}</p>
+    <p>{@html description}</p>
     <slot />
   </div>
 </section>
 
-<style>
+<style lang="postcss">
   .title {
     position: relative;
     margin-right: auto;
+    font-weight: 500;
+    font-size: 1.5rem;
   }
 
   section {
     position: relative;
+    margin-bottom: 24px;
+  }
+
+  p {
+    margin-bottom: 16px;
+    font-size: 1rem;
+    font-weight: 300;
   }
 
   h2, .content {
     width: fit-content;
     padding-left: 2rem;
+    margin-right: 0;
+    width: 100%;
   }
 
   .line {
@@ -39,6 +50,6 @@
     width: 1rem;
     height: 2px;
     
-    background: var(--red);
+    @apply bg-cinnabar;
   }
 </style>

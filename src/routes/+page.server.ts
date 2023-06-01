@@ -7,7 +7,6 @@ import { redirect } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async (event) => {
 	const { supabaseClient, session } = await getSupabase(event);
-	if (!session) throw redirect(303, "/login");
 
 	const {data, error} = await supabase.from('profiles').select('id, username').single()
 

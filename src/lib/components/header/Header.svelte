@@ -18,7 +18,7 @@
 	const {session} = data;
 </script>
 
-<header class="bg-log-cabin">
+<header class="bg-log-cabin sticky top-0">
 	<div class="flex justify-between h-20 pl-2 pr-4 py-5 bg-log-cabin">
 		<Hamburger {open} {onClick} />
 		<div class="logo">
@@ -43,7 +43,7 @@
 			flex flex-col space-y-12
 			line line--m2"
 			>
-				{#if session}
+				{#if !session}
 				<a href="/login" class="station station--default">Login / Signup</a>
 				{:else}
 				<a href="/profile" class="station station--default">Profile</a>
@@ -58,6 +58,10 @@
 </header>
 
 <style lang="scss">
+	header {
+		z-index: 100;
+	}
+
 	$base-font-size: 1.25em;
 	$base-spacing-unit: 1em;
 	$station-name-width: 9em;
