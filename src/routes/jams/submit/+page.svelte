@@ -17,7 +17,7 @@
 
 	<div class="sections">
 		<Section title={'Date'} description={'When is the jam taking place?'}>
-			<Icon src={Calendar} theme="solid" class="inline-block w-8 h-8 mr-1" />
+			<Icon src={Calendar} class="inline-block w-8 h-8 mt-1" />
 			<input type="date" name="date" id="date" />
 		</Section>
 
@@ -26,7 +26,7 @@
 			description={'At what time does the jam session start? This includes the time when the opening band starts.'}
 		>
 			<div class="flex flex-row gap-4">
-				<Icon src={Clock} theme="solid" class="inline-block w-8 h-8 mr-1" />
+				<Icon src={Clock} class="inline-block w-8 h-8 mt-1" />
 				<input type="time" name="startTime" id="startTime" class="time" />
 				<p class="mt-2">to</p>
 				<input type="time" name="endTime" id="endTime" class="time" />
@@ -37,21 +37,27 @@
 			title={'Location'}
 			description={'Where is the jam session taking place? If there are some additional directions, place mention those in the description further below.'}
 		>
-			<Icon src={MapPin} theme="solid" class="inline-block w-8 h-8 mr-1" />
-			<input type="text" name="location" id="location" />
+			<div class="flex flex-row">
+				<Icon src={MapPin} class="inline-block w-8 h-8 mt-1 " />
+				<input type="text" name="location" id="location" />
+			</div>
 		</Section>
 
 		<Section
 			title={'Opening band'}
 			description={'What group or band is opening the jam? Please us a group name and list the band members in the description further below.'}
 		>
-			<Icon src={MusicalNote} theme="solid" class="inline-block w-8 h-8 mr-1" />
-			<input type="text" name="band" id="band" />
+			<div class="flex flex-row">
+				<Icon src={MusicalNote} class="inline-block w-8 h-8 mt-1" />
+				<input type="text" name="band" id="band" />
+			</div>
 		</Section>
 
 		<Section title="Jam name" description="Please give your event / jam session a name.">
-			<Icon src={Pencil} theme="solid" class="inline-block w-8 h-8 mr-1" />
-			<input type="text" name="title" id="title" />
+			<div class="flex flex-row">
+				<Icon src={Pencil} class="inline-block w-8 h-8 mt-1 flex-none" />
+				<input type="text" name="title" id="title" class="grow" />
+			</div>
 		</Section>
 
 		<Section
@@ -71,24 +77,40 @@
 			title="Picture"
 			description={`Upload a picture of banner for the jam session. Please make sure it's max 1920 pixels wide or 1080 pixels tall, and preferrably in JPG or WEBP format. If you need to change something, please use something like <a href="https://squoosh.app/" target='_blank' style='text-decoration-line: underline;'>Squoosh</a> to compress the image.`}
 		>
-    <div class="flex items-center justify-center w-full">
-      <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-cinnabar-500 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-          <div class="flex flex-col items-center justify-center pt-5 pb-6">
-              <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-              <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-              <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG (MAX. 1920x1080px)</p>
-          </div>
-          <input id="file" type="file" class="hidden" />
-      </label>
-  </div> 
+			<div class="flex items-center justify-center w-full">
+				<label
+					for="dropzone-file"
+					class="flex flex-col items-center justify-center w-full h-64 border-2 border-cinnabar-500 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+				>
+					<div class="flex flex-col items-center justify-center pt-5 pb-6">
+						<svg
+							aria-hidden="true"
+							class="w-10 h-10 mb-3 text-gray-400"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+							><path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+							/></svg
+						>
+						<p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+							<span class="font-semibold">Click to upload</span> or drag and drop
+						</p>
+						<p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG (MAX. 1920x1080px)</p>
+					</div>
+					<input id="file" type="file" class="hidden" />
+				</label>
+			</div>
 		</Section>
 
-		<Section
-			title={"That's it!"}
-			description={'Press the button below to submit the jam session to the database.'}
-		/>
+		<Section title={"That's it!"} description={''} />
 	</div>
 </div>
+<div class="ml-11 mr-2 mb-4 mt-4">Press the button below to submit the jam session to the database.</div>
 <div class="callout callout-bottom bg-cararra mx-auto">Add a new jam session</div>
 
 <style lang="scss">
@@ -103,30 +125,33 @@
 		align-items: flex-start;
 		gap: 1rem;
 
-		margin-top: 4rem;
+		margin-top: 2rem;
 		margin-left: 0.5rem;
 		margin-right: 0.5rem;
 
-		border-left: 2px solid var(--red);
+		border-left: 2px solid var(--red); 
 	}
 
-  #title, #band, #location, #location {
-    width: 100%;
-    max-width: 88%;
-    padding: 1rem;
-    margin-left: 1rem;
+	#title,
+	#band,
+	#location,
+	#location {
+		width: 100%;
+		max-width: 88%;
+		padding: 1rem;
+		margin-left: 0.5rem;
 
-    color: black;
-    font-size: 1.7rem;
-    font-weight: 700;
-    text-align: center;
-    line-height: 2rem;
-  }
+		color: black;
+		font-size: 1.7rem;
+		font-weight: 700;
+		text-align: center;
+		line-height: 2rem;
+	}
 
-  #date {
-    margin-left: 1rem;
-    padding: 1rem;
-  }
+	#date {
+		margin-left: 1rem;
+		padding: 1rem;
+	}
 
 	.description {
 		padding-top: 3rem;
@@ -150,12 +175,14 @@
 		font-weight: 700;
 		text-align: center;
 		line-height: 2rem;
+
+		@apply max-[450px]:p-0.5
 	}
 
-  .callout-bottom {
-    margin-bottom: 1rem;
-    margin-left: auto;
-  }
+	.callout-bottom {
+		margin-bottom: 1rem;
+		margin-left: auto;
+	}
 
 	.top {
 		position: absolute;
@@ -180,7 +207,7 @@
 
 	input {
 		height: 40px;
-		border: 2px solid var(--red);
+		border: 1px solid var(--red);
 		@apply bg-cararra text-log-cabin dark:bg-log-cabin dark:text-cararra;
 		border-radius: 14px;
 		@apply px-2;
@@ -191,7 +218,7 @@
 			justify-content: space-between;
 			align-items: center;
 			gap: 1rem;
-      text-align: center;
+			text-align: center;
 		}
 	}
 

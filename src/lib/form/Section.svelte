@@ -8,10 +8,13 @@
     <div class="line" />
     <h2>{title}</h2>
   </div>
+  {#if description !== undefined && description !== ''}
   <div class="content">
     <p>{@html description}</p>
     <slot />
   </div>
+  {/if}
+  
 </section>
 
 <style lang="postcss">
@@ -24,7 +27,16 @@
 
   section {
     position: relative;
-    margin-bottom: 24px;
+    margin-bottom: 2rem;
+  }
+
+  section:last-child {
+    margin-bottom: 0;
+    transform: translateY(1.1rem);
+  }
+
+  section:nth-last-child(2) {
+    margin-bottom: 0.5rem;
   }
 
   p {

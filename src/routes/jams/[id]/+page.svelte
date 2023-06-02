@@ -37,8 +37,10 @@
 </script>
 
 <section id="first">
-	<div class="top-line" />
-	<h1 class="callout">{title}</h1>
+  <div class="flex flex-row">
+    <div class="top-line flex-none" />
+    <h1 class="callout-top mx-4 grow">{title}</h1>
+  </div>
 	<img src={image} alt="Picture for {title} jam session" class="mt-12" />
 	<ul>
 		<h1 class="title mb-1">Details</h1>
@@ -95,10 +97,10 @@
 		border-left: 2px solid $red;
 	}
 
-	.callout {
+	.callout-top {
 		z-index: 2;
 
-		@apply text-log-cabin p-4 max-w-full ml-4;
+		@apply text-log-cabin p-4 mx-4 ;
 		border-radius: 1rem;
 		font-size: 2rem;
 		font-weight: 900;
