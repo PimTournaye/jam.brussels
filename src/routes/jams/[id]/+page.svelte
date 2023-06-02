@@ -1,130 +1,123 @@
 <script lang="ts">
-    import type { PageData } from './$types';
-    import Section from '$lib/form/Section.svelte';
-
-    import { Icon } from '@steeze-ui/svelte-icon';
+	import type { PageData } from './$types';
+	import Section from '$lib/form/Section.svelte';
+	import { Icon } from '@steeze-ui/svelte-icon';
 	import { Clock, Calendar, MapPin, MusicalNote } from '@steeze-ui/heroicons';
-    
-    export let data: PageData;
+	import { formatFullDate } from '$lib/utils/DateFormatting';
+	import { faker } from '@faker-js/faker';
 
-    let {title, image, openingBand, location, date, startTime, endTime} = data;
+	export let data: PageData;
+
+	// let {title, image, openingBand, location, date, startTime, endTime, description} = data;
+
+	const image = '/2023-06-02-wayne-escoffery-quartet-2-the-sounds-mix-session-swing--1683394778.png',
+		title = 'Muntpunt Sessions',
+		openingBand = 'Wayne Escoffery Quartet',
+		location = 'Muntpunt',
+		date = new Date('2023-06-02'),
+		startTime = '20:00',
+		endTime = '22:00',
+		description = faker.lorem.paragraphs(3);
 </script>
 
-<div class="main">
-    <div class="line top-line" />
-    <h1 class="callout top">{title}</h1>
-    <img src={image} alt="Picture for {title} jam session">
+<section>
+	<div class="line" />
+	<h1 class="callout w-full mx-4">{title}</h1>
+	<img src={image} alt="Picture for {title} jam session" />
 
-    <h1>Details</h1>
-    
-      <div class="sections">
+	<h1>Details</h1>
+	<ul>
+		<li class="list">
+			<span class="icon"><Icon src={MusicalNote} theme="solid" class="h-6 w-6" /></span>
+			<span class="icon-text">{openingBand}</span>
+		</li>
+		<li class="list">
+			<span class="icon"><Icon src={MapPin} theme="solid" class="h-6 w-6" /></span>
+			<span class="icon-text">{location}</span>
+		</li>
+		<li class="list">
+			<span class="icon"><Icon src={Calendar} theme="solid" class="h-6 w-6" /></span>
+			<span class="icon-text">{formatFullDate(date)}</span>
+		</li>
+		<li class="list">
+			<span class="icon"><Icon src={Clock} theme="solid" class="h-6 w-6" /></span>
+			<span class="icon-text">{startTime} to {endTime}</span>
+		</li>
+	</ul>
+</section>
 
-        <section>
-            <div class="line" />
-            <Icon src={MusicalNote} theme="solid" class="inline-block w-4 h-4 mr-1" />
+<section>
+	<h1>Description</h1>
+	<div>
+		<p class="description">
+			{description}
+		</p>
+	</div>
+</section>
 
-        </section>
+<style lang="scss">
+  $red: #DF3F1F;
 
-        <Section title={'Date'} description={'When is the jam taking place?'}>
-        <input type="date" name="date" id="date">
-        </Section>
+	section {
+		position: relative;
 
-        <Section title={'Time'} description={"At what time does the jam session start? This includes the time when the opening band starts."}>
-          <input type="time" name="startTime" id="startTime">
-          <p>to</p>
-          <input type="time" name="endTime" id="endTime">
-        </Section>
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 1rem;
 
-        <Section title={'Location'} description={"Where is the jam session taking place? If there are some additional directions, place mention those in the description further below."}>
-        <input type="text" name="location" id="location">
-        </Section>
-        
-        <Section title={'Opening band'} description={"What group or band is opening the jam? Please us a group name and list the band members in the description further below."}>
-          <input type="text" name="band" id="band">
-        </Section>
+		width: 500px;
+		padding-right: 2rem;
+		margin-top: 3rem;
 
-        <Section title="Jam name" description="Please give your event / jam session a name.">
-          <input type="text" name="title" id="title">
-        </Section>
+		border-left: 2px solid $red;
+	}
 
-        <Section title="Description" description={"Please provide an additional details relating to the jam session below."}>
-          <textarea name="description" id="description" cols="30" rows="10"></textarea>
-        </Section>
-        
-        <Section title="Picture" description="Upload a picture of banner for the jam session.">
-          <input type="file" name="picture" id="picture">
-        </Section>
-        
-        <Section title={"That's it!"} description={"Press the button below to submit the jam session for review. Please make sure it's max 1920 pixels wide or 1080 pixels tall, and preferrably in JPG or WEBP format. If you need to change something, please use something like https://squoosh.app/"}>
-        </Section>
-      </div>
-      <div class="callout bottom">Adding a new jam session</div>
-  
-    <div class="line bottom-line" />
-  </div>
+	.callout {
+		position: relative;
+		z-index: 2;
 
-  <style>
-    .main {
-      position: relative;
-  
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1rem;
-          
-          width: 500px;
-      padding-right: 2rem;
-          margin-top: 3rem;
-  
-      border-left: 2px solid var(--red);
-    }
-  
-    .description {
-      padding-top: 3rem;
-      padding-left: 1rem;
-      margin: auto;
-    }
-  
-    .callout {
-      position: relative;
-      z-index: 2;
-  
-          width: 100%;
-      max-width: 88%;
-      padding: 1rem;
-      margin-left: 1rem;
-  
-      color: black;
-      border-radius: 1rem;
-  
-      font-size: 2rem;
-          font-weight: 900;
-          text-align: center;
-          line-height: 2rem;
-    }
-  
-    .top {
-      position: absolute;
-      background: var(--red);
-      
-      transform: translate(0, -3.5rem);
-    }
-    
-    .bottom {
-      background: white;
-      
-      transform: translate(0, 2rem);
-    }
-  
-    .line {
-      position: absolute;
-      width: 2rem;
-      height: 2px;
-      background: var(--red);
-    }
-  
-    .bottom-line {
-      left: 0;
-      bottom: 0;
-    }
-  </style>
+		width: 100%;
+		max-width: 88%;
+		padding: 1rem;
+		margin-left: 1rem;
+
+		@apply text-log-cabin;
+		border-radius: 1rem;
+
+		font-size: 2rem;
+		font-weight: 900;
+		text-align: center;
+		line-height: 2rem;
+
+    position: absolute;
+		background: $red;
+
+		transform: translate(0, -2rem);
+
+	}
+
+	.line {
+		position: absolute;
+		width: 2rem;
+		height: 2px;
+		background: $red;
+	}
+
+  .icon {
+    @apply rounded-full border-2 border-cinnabar 
+    p-1
+  }
+
+  .icon-text {
+    @apply ml-2;
+    transform: translateY(6px);
+  }
+
+  .list {
+    @apply flex flex-row 
+
+
+  }
+
+</style>

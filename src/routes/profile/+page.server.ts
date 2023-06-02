@@ -1,13 +1,13 @@
-import { supabase } from "$lib/db/supabaseClient";
+import { supabaseClient } from "$lib/supabase";
 import { getSupabase } from "@supabase/auth-helpers-sveltekit";
-import { redirect } from "@sveltejs/kit";
+import { redirect, error } from "@sveltejs/kit";
 import type { PageServerLoad, Actions } from "./$types";
 
 export const load: PageServerLoad = async (event) => {
 	const { supabaseClient, session } = await getSupabase(event);
 	if (!session) throw redirect(303, "/login");
 
-	const {data, error} = await supabase.from('profiles').select('id, username').single()
+	const {data, error} = await supabaseClient.from('profiles').select('id, username').single()
 	return { profile: data };
 };
 

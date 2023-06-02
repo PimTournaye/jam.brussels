@@ -85,11 +85,11 @@
 
 		<Section
 			title={"That's it!"}
-			description={'Press the button below to submit the jam session to the jams list.'}
+			description={'Press the button below to submit the jam session to the database.'}
 		/>
 	</div>
 </div>
-<div class="callout callout-bottom  bg-cararra mx-auto">Add a new jam session</div>
+<div class="callout callout-bottom bg-cararra mx-auto">Add a new jam session</div>
 
 <style lang="scss">
 	:root {

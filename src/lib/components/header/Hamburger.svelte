@@ -11,7 +11,7 @@
 
   //disable scroll when menu is open
   if (browser) {
-  $: if (open) {
+  if (open) {
     document.body.style.overflow = 'hidden'
   } else {
     document.body.style.overflow = 'auto'

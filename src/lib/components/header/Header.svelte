@@ -3,14 +3,17 @@
 	import { fade } from 'svelte/transition';
 	import logo from './logo-dark.svg';
 	import { navigating } from '$app/stores';
+	import { browser } from '$app/environment';
 
 	export let open = false;
 	export let onClick = (): void => {
 		open = !open;
+		if (browser) document.body.style.overflow = open ? "hidden" : "scroll";
 	};
 
 	$: if($navigating) {
 		open = false;
+		if (browser) document.body.style.overflow = "scroll";
 	}
 
 	export let data;
@@ -34,8 +37,8 @@
 		out:fade={{ duration: 100 }}
 			class="flex flex-col absolute
 		space-y-12
-		px-4 pt-8 h-full w-full
-		backdrop-blur-xl
+		px-4 pt-8 h-screen w-screen
+		backdrop-blur-xl bg-opacity-50 bg-black
 		"
 		>
 			<div
@@ -50,7 +53,13 @@
 				{/if}
 				<a href="/jams" class="station station--default">Jams</a>
 				<a href="/jams/submit" class="station station--default">Submit Jam Session</a>
+				{#if session}
+				<a href="/info" class="station station--default">FAQ & Info</a>
+				<form action="/logout" method="POST">
+				<button class="station station--end">Logout</button></form>
+				{:else}
 				<a href="/info" class="station station--end">FAQ & Info</a>
+				{/if}
 				
 			</div>
 		</nav>
@@ -60,6 +69,11 @@
 <style lang="scss">
 	header {
 		z-index: 100;
+		width: 100%;
+	}
+
+	nav {
+		z-index: 90;
 	}
 
 	$base-font-size: 1.25em;

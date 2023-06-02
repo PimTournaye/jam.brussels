@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import { supabase } from '$lib/db/supabaseClient';
+import { supabaseClient } from '$lib/supabase';
 import { generateTestJams } from '$lib/utils/generateData';
 import { checkIfDateIsToday, checkIfDateIsUpcoming } from '$lib/utils/DateChecking';
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
@@ -8,7 +8,7 @@ import { redirect } from '@sveltejs/kit';
 export const load: PageServerLoad = async (event) => {
 	const { supabaseClient, session } = await getSupabase(event);
 
-	const {data, error} = await supabase.from('profiles').select('id, username').single()
+	const {data, error} = await supabaseClient.from('profiles').select('id, username').single()
 
 
 	const jams = generateTestJams();

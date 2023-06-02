@@ -12,11 +12,13 @@
 	export let openingBand: string;
 	export let color: string;
 	export let uuid: string;
+
+	image = 'https://source.unsplash.com/1600x900/?music'
 </script>
 
 <a href="/jams/{uuid}">
 	<div class="rounded-lg max-h-100 w-full mt-4 mx-1">
-		<img class="" src="https://source.unsplash.com/1600x900/?music" alt="Picture of jam at {location}" />
+		<img class="" src="{image}" alt="Picture of jam at {location}" />
 		<h1 class="text-2xl font-bold {color} px-4 py-2 text-log-cabin">{title}</h1>
 
 		<div class="p-4 flex rounded-b-lg bg-cararra">

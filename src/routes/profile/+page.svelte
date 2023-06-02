@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
 	import { goto } from "$app/navigation";
-  import { supabase } from "$lib/db/supabaseClient";
+  import { supabaseClient } from "$lib/supabase";
   import type { PageData } from './$types';
 
   type LogoutFormState = 'idle' | 'submitting' | Error | 'done';
@@ -29,7 +29,7 @@ action="profile"
 <form method="post" on:submit|preventDefault={async () => {
   try {
     state = 'submitting';
-    let { error } = await supabase.auth.signOut();
+    let { error } = await supabaseClient.auth.signOut();
     if (error) throw error;
     state = 'done';
     await goto('/');
