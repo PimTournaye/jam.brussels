@@ -1,17 +1,27 @@
 <script lang="ts">
 	import Hamburger from './Hamburger.svelte';
-	import { fly } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import logo from './logo-dark.svg';
-
-	let loggedIn = false;
+	import { navigating } from '$app/stores';
+	import { browser } from '$app/environment';
 
 	export let open = false;
 	export let onClick = (): void => {
 		open = !open;
+		if (browser) document.body.style.overflow = open ? "hidden" : "scroll";
 	};
+
+	$: if($navigating) {
+		open = false;
+		if (browser) document.body.style.overflow = "scroll";
+	}
+
+	export let data;
+
+	const {session} = data;
 </script>
 
-<header class="bg-log-cabin">
+<header class="bg-log-cabin sticky top-0">
 	<div class="flex justify-between h-20 pl-2 pr-4 py-5 bg-log-cabin">
 		<Hamburger {open} {onClick} />
 		<div class="logo">
@@ -23,11 +33,12 @@
 
 	{#if open}
 		<nav
-			transition:fly={{ y: 200, duration: 400 }}
+		in:fade={{ duration: 100 }}
+		out:fade={{ duration: 100 }}
 			class="flex flex-col absolute
 		space-y-12
-		px-4 pt-8 h-full w-full
-		backdrop-blur-xl
+		px-4 pt-8 h-screen w-screen
+		backdrop-blur-xl bg-opacity-50 bg-black
 		"
 		>
 			<div
@@ -35,20 +46,36 @@
 			flex flex-col space-y-12
 			line line--m2"
 			>
-				{#if !loggedIn}
-					<a href="/login" class="station station--default">Login / Signup</a>
+				{#if !session}
+				<a href="/login" class="station station--default">Login / Signup</a>
 				{:else}
-					<a href="/logout" class="station station--default">Logout</a>
+				<a href="/profile" class="station station--default">Profile</a>
 				{/if}
 				<a href="/jams" class="station station--default">Jams</a>
-				<a href="/submit" class="station station--default">Submit Jam Session</a>
+				<a href="/jams/submit" class="station station--default">Submit Jam Session</a>
+				{#if session}
+				<a href="/info" class="station station--default">FAQ & Info</a>
+				<form action="/logout" method="POST">
+				<button class="station station--end">Logout</button></form>
+				{:else}
 				<a href="/info" class="station station--end">FAQ & Info</a>
+				{/if}
+				
 			</div>
 		</nav>
 	{/if}
 </header>
 
 <style lang="scss">
+	header {
+		z-index: 100;
+		width: 100%;
+	}
+
+	nav {
+		z-index: 90;
+	}
+
 	$base-font-size: 1.25em;
 	$base-spacing-unit: 1em;
 	$station-name-width: 9em;

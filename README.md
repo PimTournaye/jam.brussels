@@ -11,3 +11,21 @@ Yeah, not a fan of this kind of thing. So yeah, without this made, I can finally
 ## Design
 
 UX Design is being conceived over [here](https://www.figma.com/file/gNKtt6HTorugMfGsUuNakR/jam.brussels?node-id=0%3A1) on Figma. Feel free to provide feedback or make suggestions in the issues tab of this page.
+
+
+# TODO:
+
+- [x] Create a database
+- [ ] Set up policies
+- [ ] Make the jams page
+- [ ] Make the jam session submission complete page
+- [ ] Set up profile page
+- [ ] set up saved jams in database
+- [ ] set up saved jams in profile page
+- [ ] set up update saved jams in specific (ID) jam page
+
+## Minor
+- Fix the favicon
+- Fix the title in specific (ID) jam page to use width properly
+
+

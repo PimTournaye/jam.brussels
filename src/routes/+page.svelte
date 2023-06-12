@@ -1,11 +1,10 @@
 <script lang="ts">
+	import type {PageData} from './$types'
 	import JamCard from '$lib/components/JamCard.svelte';
 
-	export let data: any;
-	let { todayJams, upcomingJams } = data;
+	export let data: PageData
 
-	let todayColor = 'bg-tulip-tree';
-
+	let {todayJams, upcomingJams, profile, session} = data;
 </script>
 
 <svelte:head>
@@ -13,7 +12,8 @@
 </svelte:head>
 
 <div class="mt-8 mx-4">
-	<h1 class="text-4xl font-bold">Welcome back!</h1>
+	<h1 class="text-4xl font-bold">Welcome back{#if session}, {profile?.username}{/if}!
+	</h1>
 	<h2 class="text-lg text-cararra-900 font-bold">Here's what's happening soon</h2>
 </div>
 
@@ -28,8 +28,8 @@
 			<img src="/music_note_white_24dp.svg" class="w-16 h-16 mx-auto text-cararra-900" alt="icon of a music note"/>
 		</div>
 		{:else}
-			{#each todayJams as { image, title, date, startTime, endTime, location, openingBand, id }}
-			<JamCard {image} {title} {date} {startTime} {endTime} {location} {openingBand} color={'tulip-gold'} {id} />
+			{#each todayJams as { image, title, date, startTime, endTime, location, openingBand, uuid }}
+			<JamCard {image} {title} {date} {startTime} {endTime} {location} {openingBand} color={'bg-tulip-tree'} {uuid} />
 			{/each}
 		{/if}
 	</div>
@@ -38,21 +38,21 @@
 		<h1 class="text-bold text-2xl mx-4">Upcoming</h1>
 
 		{#if upcomingJams}
-			{#each upcomingJams as { image, title, date, startTime, endTime, location, openingBand, id }}
-			<JamCard {image} {title} {date} {startTime} {endTime} {location} {openingBand} color={'cinnabar'} {id} />
+			{#each upcomingJams as { image, title, date, startTime, endTime, location, openingBand, uuid }}
+			<JamCard {image} {title} {date} {startTime} {endTime} {location} {openingBand} color={'bg-cinnabar'} {uuid} />
 			{/each}
 		{:else}
-			<h1 class="text-bold text-2xl">No upcoming events</h1>
+			<h1 class="text-bold text-2xl">No upcoming events!</h1>
 		{/if}
 	</div>
 </section>
 
-<div class="mt-8 mx-4">
+<div class="mt-8 mx-4 mb-4">
 	Don't see your jam session on the list? Click the button below!
-	<button
+	<a href="/jams/submit"
 		class="rounded-lg bg-cararra text-log-cabin mt-4
   flex justify-center 
   h-12 py-2 w-full
-	 text-black font-semibold text-xl">Add a new jam session</button
-	>
+	 text-black font-semibold text-xl">Add a new jam session
+	 </a>
 </div>

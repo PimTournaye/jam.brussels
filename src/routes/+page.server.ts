@@ -1,26 +1,28 @@
-import { checkIfDateIsToday, checkIfDateIsUpcoming } from '$lib/utils/DateChecking';
-import { getPublicJamSessions } from '$lib/utils/prisma';
-import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { supabaseClient } from '$lib/supabase';
+import { generateTestJams } from '$lib/utils/generateData';
+import { checkIfDateIsToday, checkIfDateIsUpcoming } from '$lib/utils/DateChecking';
+import { getSupabase } from '@supabase/auth-helpers-sveltekit';
+import { redirect } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async () => {
-	const jamSessions = await getPublicJamSessions();
+export const load: PageServerLoad = async (event) => {
+	const { supabaseClient, session } = await getSupabase(event);
 
-	if (!jamSessions) throw error(404, 'Jam sessions not found');
+	const {data, error} = await supabaseClient.from('profiles').select('id, username').single()
 
-	// filter the jam sessions into two arrays, one for today and one for the comign two weeks
-	const todayJams = [];
-	const upcomingJams = [];
-	for (const jam of jamSessions) {
-		if (checkIfDateIsToday(jam.date)) {
-			todayJams.push(jam);
-		} else if (checkIfDateIsUpcoming(jam.date)) {
-			upcomingJams.push(jam);
-		}
-	}
+
+	const jams = generateTestJams();
+	const todayJams: { uuid: string; date: Date; title:string; startTime: string; endTime: string; location: string; openingBand: string; organiser: string; image: string; }[] = [];
+	const upcomingJams: { uuid: string; date: Date; title:string; startTime: string; endTime: string; location: string; openingBand: string; organiser: string; image: string; }[] = [];
+
+	jams.forEach(jam => {
+		if(checkIfDateIsToday(jam.date)) todayJams.push(jam);
+		else if(checkIfDateIsUpcoming(jam.date)) upcomingJams.push(jam)
+	});
 
 	return {
-		todayJams,
-		upcomingJams
-	};
-};
+		todayJams: todayJams,
+		upcomingJams: upcomingJams,
+		profile: data
+	}
+}
