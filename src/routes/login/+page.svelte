@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { supabaseClient } from '$lib/supabase';
 	import type { PageData } from './$types';
-  import { Spinner } from 'flowbite-svelte';
+  // import { Spinner } from 'flowbite-svelte';
 
 	export let data: PageData;
 
@@ -41,7 +41,7 @@
 		
 		<button
 			type="button"
-			class="text-white bg-log-cabin border-solid border-2 border-cararra focus:ring-4 focus:outline-none rounded-lg p-12 text-center inline-flex items-center"
+			class="text-white bg-log-cabin border-solid border-2 border-cararra focus:ring-4 focus:outline-none rounded-lg p-8 text-center inline-flex items-center"
 			on:click={async () => {
 				const { data, error } = await supabaseClient.auth.signInWithOAuth({
 					provider: 'google'

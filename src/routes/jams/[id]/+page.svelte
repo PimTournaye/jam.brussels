@@ -1,13 +1,16 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { Icon } from '@steeze-ui/svelte-icon';
-	import { Clock, Calendar, MapPin, MusicalNote, Heart } from '@steeze-ui/heroicons';
+	import { Clock, Calendar, MapPin, MusicalNote, Heart, PencilSquare } from '@steeze-ui/heroicons';
 	import { formatFullDate } from '$lib/utils/DateFormatting';
 	import { faker } from '@faker-js/faker';
 
 	export let data: PageData;
 
 	let { session } = data;
+
+	// check if user is organiser of this jam session
+	let isOrganiser = false;
 
 	let saved = false;
 
@@ -21,6 +24,14 @@
 			// Supabase stuff
 			saved = false;
 		}
+	};
+
+	const editJamSession = () => {
+		// open up model with form to edit jam session
+
+		// Supabase stuff
+
+
 	};
 
 	// let {title, image, openingBand, location, date, startTime, endTime, description} = data;
@@ -44,21 +55,39 @@
 	<img src={image} alt="Picture for {title} jam session" class="mt-12" />
 	<ul>
 		<h1 class="title mb-1">Details</h1>
+
 		<li class="list">
 			<div class="line" />
 			<span class="icon"><Icon src={MusicalNote} class="h-6 w-6" /></span>
 			<span class="icon-text">{openingBand}</span>
 		</li>
+		
 		<li class="list">
 			<div class="line" />
 			<span class="icon"><Icon src={MapPin} class="h-6 w-6" /></span>
 			<span class="icon-text">{location}</span>
 		</li>
-		<li class="list">
-			<div class="line" />
+
+
+		<li class="justify-between ">
+			<div class="list items-center">
+				<div class="line" />
 			<span class="icon"><Icon src={Calendar} class="h-6 w-6" /></span>
 			<span class="icon-text">{formatFullDate(date)}</span>
+			</div>
+			{#if !isOrganiser}
+				<div class="list items-center">
+					<span class="text-cararra-900 italic mr-1.5">Edit</span>
+					<button class="icon icon-save" on:click={saveJamSession}>
+            <Icon src={PencilSquare} theme={isOrganiser ? 'solid' : ''} class="h-6 w-6" />
+          </button>
+					<div class="line-right" />
+				</div>
+			{/if}
 		</li>
+
+		
+		
 		<li class="justify-between ">
 			<div class="list items-center">
 				<div class="line" />
@@ -67,7 +96,7 @@
 			</div>
 			{#if !session}
 				<div class="list items-center">
-					<span class="text-cararra-900 italic mr-1">Save</span>
+					<span class="text-cararra-900 italic mr-1.5">Save</span>
 					<button class="icon icon-save" on:click={saveJamSession}>
             <Icon src={Heart} theme={saved ? 'solid' : ''} class="h-6 w-6" />
           </button>

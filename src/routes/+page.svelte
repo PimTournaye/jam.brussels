@@ -12,7 +12,7 @@
 </svelte:head>
 
 <div class="mt-8 mx-4">
-	<h1 class="text-4xl font-bold">Welcome back{#if session}, {profile?.username}{/if}!
+	<h1 class="text-4xl font-bold">Welcome back{#if session}, {profile?.username ? profile?.username : ''}{/if}
 	</h1>
 	<h2 class="text-lg text-cararra-900 font-bold">Here's what's happening soon</h2>
 </div>

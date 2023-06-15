@@ -2,7 +2,7 @@
 	import type { PageData } from './$types';
 	import Section from '$lib/form/Section.svelte';
 	import { Icon } from '@steeze-ui/svelte-icon';
-	import { Clock, Calendar, MapPin, MusicalNote, Pencil, ArrowUpTray } from '@steeze-ui/heroicons';
+	import { Clock, Calendar, MapPin, MusicalNote, Pencil } from '@steeze-ui/heroicons';
 
 	export let data: PageData;
 </script>
@@ -17,16 +17,18 @@
 
 	<div class="sections">
 		<Section title={'Date'} description={'When is the jam taking place?'}>
-			<Icon src={Calendar} class="inline-block w-8 h-8 mt-1" />
-			<input type="date" name="date" id="date" />
+			<div class="flex flex-row align-middle ">
+				<Icon src={Calendar} class="inline-block w-7 h-7 mt-1" />
+				<input type="date" name="date" id="date" class="" />
+			</div>
 		</Section>
 
 		<Section
 			title={'Time'}
 			description={'At what time does the jam session start? This includes the time when the opening band starts.'}
 		>
-			<div class="flex flex-row gap-4">
-				<Icon src={Clock} class="inline-block w-8 h-8 mt-1" />
+			<div class="flex flex-row gap-4 align-middle">
+				<Icon src={Clock} class="inline-block w-7 h-7 mt-1" />
 				<input type="time" name="startTime" id="startTime" class="time" />
 				<p class="mt-2">to</p>
 				<input type="time" name="endTime" id="endTime" class="time" />
@@ -37,8 +39,8 @@
 			title={'Location'}
 			description={'Where is the jam session taking place? If there are some additional directions, place mention those in the description further below.'}
 		>
-			<div class="flex flex-row">
-				<Icon src={MapPin} class="inline-block w-8 h-8 mt-1 " />
+			<div class="flex flex-row align-middle">
+				<Icon src={MapPin} class="inline-block w-7 h-7 mt-1 " />
 				<input type="text" name="location" id="location" />
 			</div>
 		</Section>
@@ -47,15 +49,15 @@
 			title={'Opening band'}
 			description={'What group or band is opening the jam? Please us a group name and list the band members in the description further below.'}
 		>
-			<div class="flex flex-row">
-				<Icon src={MusicalNote} class="inline-block w-8 h-8 mt-1" />
+			<div class="flex flex-row align-middle">
+				<Icon src={MusicalNote} class="inline-block w-7 h-7 mt-1.5" />
 				<input type="text" name="band" id="band" />
 			</div>
 		</Section>
 
 		<Section title="Jam name" description="Please give your event / jam session a name.">
-			<div class="flex flex-row">
-				<Icon src={Pencil} class="inline-block w-8 h-8 mt-1 flex-none" />
+			<div class="flex flex-row align-middle">
+				<Icon src={Pencil} class="inline-block w-7 h-7 mt-1.5 flex-none" />
 				<input type="text" name="title" id="title" class="grow" />
 			</div>
 		</Section>
@@ -175,8 +177,7 @@
 		font-weight: 700;
 		text-align: center;
 		line-height: 2rem;
-
-		@apply max-[450px]:p-0.5
+		
 	}
 
 	.callout-bottom {
