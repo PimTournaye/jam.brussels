@@ -5,6 +5,7 @@
 	export let data: PageData
 
 	let {todayJams, upcomingJams, profile, session} = data;
+
 </script>
 
 <svelte:head>

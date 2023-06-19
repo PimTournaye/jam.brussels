@@ -61,7 +61,7 @@
 	}
 
 	h2 {
-		@apply mb-2 text-cararra;
+		@apply mb-2 text-cararra font-medium;
 	}
 
 	p, li {

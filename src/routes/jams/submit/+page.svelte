@@ -3,15 +3,21 @@
 	import Section from '$lib/form/Section.svelte';
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { Clock, Calendar, MapPin, MusicalNote, Pencil } from '@steeze-ui/heroicons';
+  import { superForm } from 'sveltekit-superforms/client';
 
 	export let data: PageData;
+	const { form, errors, constraints, enhance } = superForm(data.form);
+
+	const { session } = data;
+
+	console.log(session)
 </script>
 
-<div id="main">
+<div id="main" class="mx-1">
 	<div class="flex flex-row items-center -translate-y-7 w-full text-center">
 		<div class="line" />
 		<h1 class="grow rounded-lg p-4
-		font-bold text-xl 
+		font-bold text-2xl 
 		bg-cinnabar text-log-cabin">Adding a new jam session</h1>
 	</div>
 	<p class="description mb-4 -translate-y-7">
@@ -19,11 +25,18 @@
 	</p>
 
 	<div class="sections">
-		<form action="?/create" method="POST" class="mb-10">
+		<form action="?/create" method="POST" use:enhance class="mb-10">
 			<Section title={'Date'} description={'When is the jam taking place?'}>
 				<div class="flex flex-row align-middle ">
 					<Icon src={Calendar} class="inline-block w-7 h-7 mt-1" />
-					<input type="date" name="date" id="date" class="" autocomplete="off" />
+					<input 
+					aria-invalid={$errors.date ? 'true' : undefined}
+					bind:value={$form.date} {...$constraints.date}
+					type="date" 
+					name="date" 
+					id="date" 
+					class="" 
+					autocomplete="off" required/>
 				</div>
 			</Section>
 
@@ -33,10 +46,25 @@
 			>
 				<div class="flex flex-row gap-4 align-middle">
 					<Icon src={Clock} class="inline-block w-7 h-7 mt-1" />
-					<input type="time" name="startTime" id="startTime" class="time" autocomplete="off" />
+					<input 
+					aria-invalid={$errors.startTime ? 'true' : undefined}
+					bind:value={$form.startTime} {...$constraints.startTime}
+					required type="time" name="startTime" id="startTime" class="time" autocomplete="off" />
 					<p class="mt-2">to</p>
-					<input type="time" name="endTime" id="endTime" class="time" autocomplete="off" />
+					<input 
+					aria-invalid={$errors.endTime ? 'true' : undefined}
+					bind:value={$form.endTime} {...$constraints.endTime}
+					required type="time" name="endTime" id="endTime" class="time" autocomplete="off" />
 				</div>
+				{#if $errors.startTime || $errors.endTime}
+					<p class="text-red-500 text-sm mt-2">
+						{#if $errors.startTime}
+							{$errors.startTime}
+						{:else if $errors.endTime}
+							{$errors.endTime}
+						{/if}
+					</p>
+				{/if}
 			</Section>
 
 			<Section
@@ -45,7 +73,10 @@
 			>
 				<div class="flex flex-row align-middle">
 					<Icon src={MapPin} class="inline-block w-7 h-7 mt-1 " />
-					<input type="text" name="location" id="location" autocomplete="off" />
+					<input 
+					aria-invalid={$errors.location ? 'true' : undefined}
+					bind:value={$form.location} {...$constraints.location}
+					required type="text" name="location" id="location" autocomplete="off" />
 				</div>
 			</Section>
 
@@ -55,14 +86,20 @@
 			>
 				<div class="flex flex-row align-middle">
 					<Icon src={MusicalNote} class="inline-block w-7 h-7 mt-1.5" />
-					<input type="text" name="band" id="band" autocomplete="off" />
+					<input 
+					aria-invalid={$errors.openings_band ? 'true' : undefined}
+					bind:value={$form.openings_band} {...$constraints.openings_band}
+					required type="text" name="openings_band" id="openings_band" autocomplete="off" class="ml-2 w-full"/>
 				</div>
 			</Section>
 
 			<Section title="Jam name" description="Please give your event / jam session a name.">
 				<div class="flex flex-row align-middle">
 					<Icon src={Pencil} class="inline-block w-7 h-7 mt-1.5 flex-none" />
-					<input type="text" name="title" id="title" class="grow" autocomplete="off" />
+					<input
+					aria-invalid={$errors.title ? 'true' : undefined}
+					bind:value={$form.title} {...$constraints.title}
+					 required type="text" name="title" id="title" class="grow" autocomplete="off" />
 				</div>
 			</Section>
 
@@ -71,18 +108,20 @@
 				description={'Please provide an additional details relating to the jam session below.'}
 			>
 				<textarea
+				required
 					name="description"
 					id="description"
 					cols="30"
 					rows="10"
 					placeholder="this this that, this bandmember, another bandmember..."
 					autocomplete="off"
+					style="white-space: pre-wrap;"
 				/>
 			</Section>
 
 			<Section
 				title="Picture"
-				description={`Upload a picture of banner for the jam session. Please make sure it's max 1920 pixels wide or 1080 pixels tall, and preferrably in JPG or WEBP format. If you need to change something, please use something like <a href="https://squoosh.app/" target='_blank' style='text-decoration-line: underline;'>Squoosh</a> to compress the image.`}
+				description={`Upload a picture of banner for the jam session. Please make sure it's max 1920 pixels wide or 1080 pixels tall, and preferrably in JPG or WEBP format. If you need to change something, please use something like <a href="https://squoosh.app/" target='_blank' style='text-decoration-line: underline;' class="text-tulip-tree">Squoosh</a> to compress the image.`}
 			>
 				<div class="flex items-center justify-center w-full">
 					<label
@@ -107,9 +146,9 @@
 							<p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
 								<span class="font-semibold">Click to upload</span> or drag and drop
 							</p>
-							<p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG (MAX. 1920x1080px)</p>
+							<p class="text-xs text-gray-500 dark:text-gray-400">JPG, WEBP (MAX. 1920x1080px)</p>
 						</div>
-						<input id="file" type="file" class="hidden" />
+						<input required id="file" type="file" class="hidden" />
 					</label>
 				</div>
 			</Section>
@@ -127,23 +166,18 @@
 		--red: #df3f1f;
 	}
 	#main {
-		// position: relative;
-
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
 		gap: 1rem;
 
 		margin-top: 2rem;
-		margin-left: 0.5rem;
-		margin-right: 0.5rem;
 
 		border-left: 2px solid var(--red);
 		border-radius: 4px;
 	}
 
 	#title,
-	#band,
 	#location,
 	#location {
 		width: 100%;
@@ -162,12 +196,6 @@
 		margin: auto;
 	}
 
-	.top {
-		position: absolute;
-		background: var(--red);
-
-		transform: translate(0, -2rem);
-	}
 
 	.line {
 		width: 1rem;
@@ -190,14 +218,6 @@
 		border-radius: 14px;
 		@apply px-2;
 
-		.time {
-			width: 40%;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			gap: 1rem;
-			text-align: center;
-		}
 	}
 
 	textarea {

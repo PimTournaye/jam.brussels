@@ -1,27 +1,42 @@
 import { getSupabase } from "@supabase/auth-helpers-sveltekit";
-import { redirect, error } from "@sveltejs/kit";
+import { superValidate } from 'sveltekit-superforms/server';
+import { redirect, fail } from "@sveltejs/kit";
 import type { PageServerLoad, Actions } from "./$types";
+import { z } from "zod";
+import { supabaseClient } from "$lib/supabase";
+
+const schema = z.object({
+	username: z.string(),
+});
+
 
 export const load: PageServerLoad = async (event) => {
 	const { supabaseClient, session } = await getSupabase(event);
 	if (!session) throw redirect(303, "/login");
 
-	const {data, error} = await supabaseClient.from('profiles').select('id, username').single()
+	const form = await superValidate(schema);
+	const {data, error} = await supabaseClient.from('profiles').select('id, username').single();
+
 	return { profile: data };
 };
 
 export const actions: Actions = {
 	default: async (event) => {
+		const form = await superValidate(event.request, schema);
 		const { supabaseClient, session } = await getSupabase(event);
-		if (!session) return error(401, 'You must be logged in to do this.');
 
-		const formData = await event.request.formData();
-		const username = formData.get('username');
+		if (!session) throw redirect(303, "/login");
 
-		if(!username || typeof username !== 'string') return error(400, 'You must specify a username');
+		// Convenient validation check:
+		if (!form.valid) {
+			// Again, always return { form } and things will just work.
+			return fail(400, { form });
+		}
 
-		const {error} = await supabaseClient.from('profiles').update({username: username}).match({id: session.user.id});
+		const {error} = await supabaseClient.from('profiles').update({username: form.data.username}).match({id: session.user.id});
 
-		if (error) return error(400, 'Was not able to update username.');
+		if (error) return fail(400, {form});
+
+		return { form }
 	}
 };
