@@ -14,7 +14,7 @@
 <div class="mt-8 mx-4">
 	<h1 class="text-4xl font-bold">Welcome back{#if session}, {profile?.username ? profile?.username : ''}{/if}
 	</h1>
-	<h2 class="text-lg text-cararra-900 font-bold">Here's what's happening soon</h2>
+	<h2 class="text-lg text-cararra-900 font-medium">Here's what's happening soon</h2>
 </div>
 
 <section class="mt-8 mb-8">
@@ -24,7 +24,7 @@
 		<div class="flex flex-col justify-center mx-auto my-4
 		w-full h-60
 		border-4 border-cararra-900 rounded-xl">
-			<h1 class="text-bold text-2xl mx-auto mb-8">No events today!</h1>
+			<h1 class="font-light text-2xl mx-auto mb-8">No events today!</h1>
 			<img src="/music_note_white_24dp.svg" class="w-16 h-16 mx-auto text-cararra-900" alt="icon of a music note"/>
 		</div>
 		{:else}
@@ -36,18 +36,23 @@
 
 	<div class="mt-8">
 		<h1 class="text-bold text-2xl mx-4">Upcoming</h1>
-
-		{#if upcomingJams}
+		{#if !upcomingJams || upcomingJams.length === 0}
+		<div class="flex flex-col justify-center mx-auto my-4
+		w-full h-60
+		border-4 border-cararra-900 rounded-xl">
+			<h1 class="font-light text-2xl mx-auto mb-8 text-center px-2">No events in the coming two weeks!</h1>
+			<a class="mx-auto mb-2 underline text-cararra-800" href="/jams">Check the calender</a>
+			<img src="/music_note_white_24dp.svg" class="w-16 h-16 mx-auto text-cararra-900" alt="icon of a music note"/>
+		</div>
+		{:else}
 			{#each upcomingJams as { image, title, date, startTime, endTime, location, openingBand, uuid }}
 			<JamCard {image} {title} {date} {startTime} {endTime} {location} {openingBand} color={'bg-cinnabar'} {uuid} />
 			{/each}
-		{:else}
-			<h1 class="text-bold text-2xl">No upcoming events!</h1>
 		{/if}
 	</div>
 </section>
 
-<div class="mt-8 mx-4 mb-4">
+<div class="my-4 mx-4">
 	Don't see your jam session on the list? Click the button below!
 	<a href="/jams/submit"
 		class="rounded-lg bg-cararra text-log-cabin mt-4

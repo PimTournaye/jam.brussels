@@ -1,12 +1,14 @@
-import type { PageServerLoad } from './$types';
+import { supabaseClient } from '$lib/supabase';
+import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
-	const response = await fetch('/api/jams');
-	const jams = await response.json();
+
+	// get all jams from database
+	const {data, error} = await supabaseClient.from('jams').select('*');
+
 	return {
-		status: response.status,
-        body: {
-            jams
-        }
+		body: {
+			jams: data
+		}
 	};
 };

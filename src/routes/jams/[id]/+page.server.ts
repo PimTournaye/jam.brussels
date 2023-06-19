@@ -1,5 +1,5 @@
 import { supabaseClient } from '$lib/supabase';
-import type { PageServerLoad } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({params}) => {
     // Get the particular jam from the Supabase table using the id
@@ -10,4 +10,20 @@ export const load: PageServerLoad = async ({params}) => {
 
 
     return {};
+};
+
+export const actions: Actions = {
+	delete: async (request) => {
+		console.log('delete');
+		const form = await request.formData();
+		const id = form.get('id') as string;
+
+		// Delete jam from database
+		const {data, error} = await supabaseClient.from('jams').delete().match({id});
+	},
+
+	edit: async (request) => {
+		console.log('edit');
+	}
+
 };
