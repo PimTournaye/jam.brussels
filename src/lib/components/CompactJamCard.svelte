@@ -9,7 +9,7 @@
 
 </script>
 
-<a href="/jams/{id}" class="border-2 border-cararra p-4 mb-4 rounded-lg shadow-md flex fles-row justify-between align-middle">
+<a href="/jams/{id}" class="border-2 border-cararra-900 p-4 mb-4 rounded-lg font-light shadow-md flex fles-row justify-between align-middle">
   <div>
     <h3 class="text-cinnabar text-lg font-bold">{title}</h3>
     <p class="flex flex-row items-center">

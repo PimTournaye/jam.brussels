@@ -10,7 +10,7 @@
   </div>
   {#if description !== undefined && description !== ''}
   <div class="content">
-    <p>{@html description}</p>
+    <p class='font-thin text-sm'>{@html description}</p>
     <slot />
   </div>
   {/if}

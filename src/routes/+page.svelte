@@ -40,7 +40,7 @@
 		<div class="flex flex-col justify-center mx-auto my-4
 		w-full h-60
 		border-4 border-cararra-900 rounded-xl">
-			<h1 class="font-light text-2xl mx-auto mb-8 text-center px-2">No events in the coming two weeks!</h1>
+			<h1 class="font-light text-xl mx-auto mb-8 text-center px-2">No events in the coming two weeks!</h1>
 			<a class="mx-auto mb-2 underline text-cararra-800" href="/jams">Check the calender</a>
 			<img src="/music_note_white_24dp.svg" class="w-16 h-16 mx-auto text-cararra-900" alt="icon of a music note"/>
 		</div>

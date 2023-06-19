@@ -8,9 +8,13 @@
 </script>
 
 <div id="main">
-	<div class="line top-line" />
-	<h1 class="callout top">Adding a new jam session</h1>
-	<p class="description mb-4">
+	<div class="flex flex-row items-center -translate-y-7 w-full text-center">
+		<div class="line" />
+		<h1 class="grow rounded-lg p-4
+		font-bold text-xl 
+		bg-cinnabar text-log-cabin">Adding a new jam session</h1>
+	</div>
+	<p class="description mb-4 -translate-y-7">
 		Please fill in the necessary information to submit a new jam session. Once submitted, it will appear in the list of upcoming jams.
 	</p>
 
@@ -116,7 +120,7 @@
 <div class="ml-11 mr-2 mb-4 mt-4">
 	Press the button below to submit the jam session to the database.
 </div>
-<div class="callout callout-bottom bg-cararra mx-auto">Add a new jam session</div>
+<button class="bg-cararra mx-auto text-log-cabin text-center font-medium text-xl px-2 rounded-lg h-12 w-full mb-2">Add a new jam session</button>
 
 <style lang="scss">
 	:root {
@@ -135,6 +139,7 @@
 		margin-right: 0.5rem;
 
 		border-left: 2px solid var(--red);
+		border-radius: 4px;
 	}
 
 	#title,
@@ -145,12 +150,6 @@
 		max-width: 88%;
 		padding: 1rem;
 		margin-left: 0.5rem;
-
-		color: black;
-		font-size: 1.7rem;
-		font-weight: 700;
-		text-align: center;
-		line-height: 2rem;
 	}
 
 	#date {
@@ -159,32 +158,8 @@
 	}
 
 	.description {
-		padding-top: 3rem;
 		padding-left: 1rem;
 		margin: auto;
-	}
-
-	.callout {
-		position: relative;
-		z-index: 2;
-
-		width: 100%;
-		max-width: 88%;
-		padding: 1rem;
-		margin-left: 1rem;
-
-		color: black;
-		border-radius: 1rem;
-
-		font-size: 1.7rem;
-		font-weight: 700;
-		text-align: center;
-		line-height: 2rem;
-	}
-
-	.callout-bottom {
-		margin-bottom: 1rem;
-		margin-left: auto;
 	}
 
 	.top {
@@ -195,8 +170,7 @@
 	}
 
 	.line {
-		position: absolute;
-		width: 2rem;
+		width: 1rem;
 		height: 2px;
 		background: var(--red);
 	}
@@ -212,6 +186,7 @@
 		height: 40px;
 		border: 1px solid var(--red);
 		@apply bg-cararra text-log-cabin dark:bg-log-cabin dark:text-cararra;
+		@apply font-light text-base;
 		border-radius: 14px;
 		@apply px-2;
 
