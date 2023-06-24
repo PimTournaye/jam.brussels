@@ -8,11 +8,17 @@
 	export let data: PageData;
 	const { form, errors, constraints, enhance } = superForm(data.form);
 
-	const { session } = data;
-
-	console.log(session)
+	function handleFileUpload(event) {
+    const file = event.target.files[0];
+    console.log('File uploaded:', file.name);
+		// log type of value in $form.file
+		console.log(typeof $form.file);
+		
+    // Perform any additional logic or actions with the uploaded file
+  }
 </script>
 
+<form method="POST" use:enhance enctype="multipart/form-data" class="mb-10">
 <div id="main" class="mx-1">
 	<div class="flex flex-row items-center -translate-y-7 w-full text-center">
 		<div class="line" />
@@ -25,7 +31,6 @@
 	</p>
 
 	<div class="sections">
-		<form action="?/create" method="POST" use:enhance class="mb-10">
 			<Section title={'Date'} description={'When is the jam taking place?'}>
 				<div class="flex flex-row align-middle ">
 					<Icon src={Calendar} class="inline-block w-7 h-7 mt-1" />
@@ -121,11 +126,10 @@
 
 			<Section
 				title="Picture"
-				description={`Upload a picture of banner for the jam session. Please make sure it's max 1920 pixels wide or 1080 pixels tall, and preferrably in JPG or WEBP format. If you need to change something, please use something like <a href="https://squoosh.app/" target='_blank' style='text-decoration-line: underline;' class="text-tulip-tree">Squoosh</a> to compress the image.`}
+				description={`Upload a picture or banner for the jam session. This will be displayed on the website.`}
 			>
 				<div class="flex items-center justify-center w-full">
-					<label
-						for="dropzone-file"
+					<label for="file"
 						class="flex flex-col items-center justify-center w-full h-64 border-2 border-cinnabar-500 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
 					>
 						<div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -144,22 +148,22 @@
 								/></svg
 							>
 							<p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-								<span class="font-semibold">Click to upload</span> or drag and drop
+								<span class="font-semibold">Tap to upload</span>
 							</p>
-							<p class="text-xs text-gray-500 dark:text-gray-400">JPG, WEBP (MAX. 1920x1080px)</p>
+							<p class="text-xs text-gray-500 dark:text-gray-400">WEBP (Max. 1920x1080)</p>
 						</div>
-						<input required id="file" type="file" class="hidden" />
+						<input required id="file" name="file" type="file" class="hidden" accept=".png, .jpg" on:change={handleFileUpload}/>
 					</label>
 				</div>
 			</Section>
-		</form>
-		<Section title={"That's it!"} description={''} />
+			<Section title={"That's it!"} description={''} />
+		</div>
 	</div>
-</div>
-<div class="ml-11 mr-2 mb-4 mt-4">
-	Press the button below to submit the jam session to the database.
-</div>
-<button class="bg-cararra mx-auto text-log-cabin text-center font-medium text-xl px-2 rounded-lg h-12 w-full mb-2">Add a new jam session</button>
+	<div class="ml-11 mr-2 mb-4 mt-4">
+		Press the button below to submit the jam session to the database.
+	</div>
+	<button type="submit" class="bg-cararra mx-auto text-log-cabin text-center font-medium text-xl px-2 rounded-lg h-12 w-full mb-2" on:submit={() => console.log()}>Add a new jam session</button>
+</form>
 
 <style lang="scss">
 	:root {
@@ -196,7 +200,6 @@
 		margin: auto;
 	}
 
-
 	.line {
 		width: 1rem;
 		height: 2px;
@@ -222,14 +225,10 @@
 
 	textarea {
 		width: 100%;
-		height: 200px;
+		height: 300px;
 		border: 1px solid var(--red);
 		@apply bg-cararra text-log-cabin dark:bg-log-cabin dark:text-cararra;
 		border-radius: 14px;
 		padding: 10px;
-
-		::-webkit-resizer {
-			background-color: white;
-		}
 	}
 </style>

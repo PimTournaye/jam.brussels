@@ -48,8 +48,8 @@
 			>
 				{#if !session}
 				<a href="/login" class="station station--default">Login / Signup</a>
-				{:else}
-				<a href="/profile" class="station station--default">Profile</a>
+				<!-- {:else} -->
+				<!-- <a href="/profile" class="station station--default">Profile</a> -->
 				{/if}
 				<a href="/jams" class="station station--default">Jams</a>
 				<a href="/jams/submit" class="station station--default">Submit Jam Session</a>

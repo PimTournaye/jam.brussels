@@ -1,7 +1,10 @@
 import { supabaseClient } from '$lib/supabase';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({params}) => {
+export const load: PageServerLoad = async (event) => {
+	const { session } = await event.parent();
+	const jamID = event.params.id;
+
     // Get the particular jam from the Supabase table using the id
 
     // If the authenticated user is the owner of the jam, add the edit button
@@ -9,7 +12,7 @@ export const load: PageServerLoad = async ({params}) => {
     // const {data, error} = await supabaseClient.from('jams').select('*').match({uuid: params.id}).single();
 
 
-    return {};
+    return {session, jamID};
 };
 
 export const actions: Actions = {

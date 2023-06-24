@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Icon } from '@steeze-ui/svelte-icon';
 	import type { PageData } from './$types';
 	import CompactJamCard from '$lib/components/CompactJamCard.svelte';
 
@@ -43,8 +42,6 @@
 	}
 
 	const sortedJams = sortObjectsByMonth(jams);
-
-	console.log(sortedJams);
 </script>
 
 <svelte:head>
