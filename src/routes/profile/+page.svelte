@@ -5,19 +5,21 @@
   import type { PageData } from './$types';
   import { Icon } from "@steeze-ui/svelte-icon";
   import { UserCircle } from "@steeze-ui/heroicons";
+  import { superForm } from 'sveltekit-superforms/client';
 
   type LogoutFormState = 'idle' | 'submitting' | Error | 'done';
   let state: LogoutFormState = 'idle'
 
   export let data: PageData;
 
-  let { session, profile } = data;
+  let { session, disable } = data;
+  const { form, errors, constraints } = superForm(data.form);
 
 </script>
- 
+{#if !disable}
 <div class="flex flex-row mb-8 justify-between mx-4 items-center">
   <div>
-    <h1 class="text-4xl font-bold">Your profile{#if session}, {profile?.username ? profile?.username : ''}{/if}
+    <h1 class="text-4xl font-bold">Your profile{#if session}, {$form?.username ? $form?.username : ''}{/if}
     </h1>
     <h2 class="text-lg text-cararra-900 font-bold">Feel free to edit your info</h2>
   </div>
@@ -39,7 +41,7 @@
     <button class="text-md border-cinnabar bg-log-cabin">Update</button>
   </form>
 </div>
-<p>username: {data.profile?.username}</p>
+<p>username: {$form.data.username}</p>
   <!-- Avatar stuff -->
   <h1>Change your avatar.</h1>
   <div class="flex items-center justify-center w-full">
@@ -93,3 +95,9 @@
 <button disabled={state === 'submitting'}>Logout</button>
 </form>
 </div>
+{:else}
+<div class="block w-full">
+<h1 class="mx-auto text-center text-3xl font-bold my-8">Coming soon!</h1>
+<a href="/" class="w-full px-8 py-4 rounded-lg bg-cinnabar align-middle">Back</a>
+</div>
+{/if}
