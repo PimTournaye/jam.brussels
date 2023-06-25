@@ -1,12 +1,25 @@
 <script lang="ts">
 	import { supabaseClient } from '$lib/supabase';
-	import type { PageData } from './$types';
-  // import { Spinner } from 'flowbite-svelte';
-
+	import type { Provider } from '@supabase/supabase-js';
+	import type { PageData, SubmitFunction } from './$types';
+	import { enhance } from '$app/forms';
 	export let data: PageData;
 
-	type FormState = 'idle' | 'submitting' | Error | 'done';
-	let state: FormState = 'idle';
+	const signinWithProvider = async (provider: Provider) => {
+		const { data, error } = await supabaseClient.auth.signInWithOAuth({ provider: provider });
+		if (error) throw error;
+	};
+
+	const submitSocialLogin: SubmitFunction = async ({ action, cancel }) => {
+		switch (action.searchParams.get('provider')) {
+			case 'google':
+				await signinWithProvider('google');
+				break;
+			default:
+				break;
+		}
+		cancel();
+	};
 </script>
 
 <svelte:head>
@@ -16,37 +29,27 @@
 <div id="login">
 	<h1 class=" text-6xl font-medium mb-16">Login</h1>
 
-	{#if state !== 'done'}
-		<form action="?/login" method="POST">
-			<label for="email" class="block text-gray-700 mb-2"> Register / Login with magic link</label>
-			<input
-				type="email"
-				name="email"
-				id="email"
-				placeholder="your@email.com"
-				required
-				class="w-full py-2 px-2 border-2 border-cinnabar focus:border-cinnabar-900 bg-log-cabin rounded-lg"
-			/>
-			<button
-				disabled={state !== 'submitting'}
-				type="button"
-				class="py-2.5 px-5 mb-12 mt-4 w-full
-				text-sm font-medium text-gray-900
-				rounded-lg border border-tulip-tree hover:bg-tulip-tree"
-				>Send magic link to mail</button>
-			<!-- {#if state !== 'done'}
-			<Spinner />
-			{/if} -->
-		</form>
-		
+	<form action="?/login" method="POST">
+		<label for="email" class="block text-gray-700 mb-2"> Register / Login with magic link</label>
+		<input
+			type="email"
+			name="email"
+			id="email"
+			placeholder="your@email.com"
+			required
+			class="w-full py-2 px-2 border-2 border-cinnabar focus:border-cinnabar-900 bg-log-cabin rounded-lg"
+		/>
 		<button
 			type="button"
+			class="login-button">Send magic link to mail</button
+		>
+	</form>
+
+	<form method="POST" use:enhance={submitSocialLogin}>
+		<button
+			formaction="?/login&provider=google"
+			type="button"
 			class="text-white bg-log-cabin border-solid border-2 border-cararra focus:ring-4 focus:outline-none rounded-lg p-8 text-center inline-flex items-center"
-			on:click={async () => {
-				const { data, error } = await supabaseClient.auth.signInWithOAuth({
-					provider: 'google'
-				});
-			}}
 		>
 			<svg
 				class="w-8 h-8"
@@ -63,17 +66,21 @@
 				/></svg
 			>
 		</button>
-	{:else}
-		<p>We've sent you an email! Please check your inbox. No need to remember a password.</p>
-	{/if}
+	</form>
 </div>
 
-<style>
+<style lang="postcss">
 	#login {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		height: 100vh;
-}
+	}
+
+	.login-button {
+		@apply py-2.5 px-5 mb-12 mt-4 w-full;
+		@apply text-sm font-medium text-gray-900;
+		@apply rounded-lg border border-tulip-tree hover:bg-tulip-tree;
+	}
 </style>

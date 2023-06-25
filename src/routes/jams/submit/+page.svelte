@@ -3,45 +3,51 @@
 	import Section from '$lib/form/Section.svelte';
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { Clock, Calendar, MapPin, MusicalNote, Pencil } from '@steeze-ui/heroicons';
-  import { superForm } from 'sveltekit-superforms/client';
+	import { superForm } from 'sveltekit-superforms/client';
+	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
 	export let data: PageData;
 	const { form, errors, constraints, enhance } = superForm(data.form);
 
-	function handleFileUpload(event) {
-    const file = event.target.files[0];
-    console.log('File uploaded:', file.name);
-		// log type of value in $form.file
-		console.log(typeof $form.file);
-		
-    // Perform any additional logic or actions with the uploaded file
-  }
+	console.log(data.session);
+	
 </script>
 
-<form method="POST" use:enhance enctype="multipart/form-data" class="mb-10">
-<div id="main" class="mx-1">
-	<div class="flex flex-row items-center -translate-y-7 w-full text-center">
-		<div class="line" />
-		<h1 class="grow rounded-lg p-4
-		font-bold text-2xl 
-		bg-cinnabar text-log-cabin">Adding a new jam session</h1>
-	</div>
-	<p class="description mb-4 -translate-y-7">
-		Please fill in the necessary information to submit a new jam session. Once submitted, it will appear in the list of upcoming jams.
-	</p>
+<SuperDebug data={$form} />
 
-	<div class="sections">
+<form method="POST" use:enhance enctype="multipart/form-data">
+	<div id="main" class="mx-1">
+		<div class="flex flex-row items-center -translate-y-7 w-full text-center">
+			<div class="line" />
+			<h1
+				class="grow rounded-lg p-4
+		font-bold text-2xl
+		bg-cinnabar text-log-cabin"
+			>
+				Adding a new jam session
+			</h1>
+		</div>
+		<p class="description mb-4 -translate-y-7">
+			Please fill in the necessary information to submit a new jam session. Once submitted, it will
+			appear in the list of upcoming jams.
+		</p>
+
+		<div class="sections">
 			<Section title={'Date'} description={'When is the jam taking place?'}>
-				<div class="flex flex-row align-middle ">
+				<div class="flex flex-row align-middle">
 					<Icon src={Calendar} class="inline-block w-7 h-7 mt-1" />
-					<input 
-					aria-invalid={$errors.date ? 'true' : undefined}
-					bind:value={$form.date} {...$constraints.date}
-					type="date" 
-					name="date" 
-					id="date" 
-					class="" 
-					autocomplete="off" required/>
+					<input
+						aria-invalid={$errors.date ? 'true' : undefined}
+						bind:value={$form.date}
+						{...$constraints.date}
+						type="date"
+						name="date"
+						id="date"
+						class=""
+						autocomplete="off"
+						required
+					/>
+					{#if $errors.date}<small class="invalid text-red-500 text-sm">{$errors.date}</small>{/if}
 				</div>
 			</Section>
 
@@ -51,15 +57,29 @@
 			>
 				<div class="flex flex-row gap-4 align-middle">
 					<Icon src={Clock} class="inline-block w-7 h-7 mt-1" />
-					<input 
-					aria-invalid={$errors.startTime ? 'true' : undefined}
-					bind:value={$form.startTime} {...$constraints.startTime}
-					required type="time" name="startTime" id="startTime" class="time" autocomplete="off" />
+					<input
+						aria-invalid={$errors.startTime ? 'true' : undefined}
+						bind:value={$form.startTime}
+						{...$constraints.startTime}
+						required
+						type="time"
+						name="startTime"
+						id="startTime"
+						class="time"
+						autocomplete="off"
+					/>
 					<p class="mt-2">to</p>
-					<input 
-					aria-invalid={$errors.endTime ? 'true' : undefined}
-					bind:value={$form.endTime} {...$constraints.endTime}
-					required type="time" name="endTime" id="endTime" class="time" autocomplete="off" />
+					<input
+						aria-invalid={$errors.endTime ? 'true' : undefined}
+						bind:value={$form.endTime}
+						{...$constraints.endTime}
+						required
+						type="time"
+						name="endTime"
+						id="endTime"
+						class="time"
+						autocomplete="off"
+					/>
 				</div>
 				{#if $errors.startTime || $errors.endTime}
 					<p class="text-red-500 text-sm mt-2">
@@ -78,10 +98,19 @@
 			>
 				<div class="flex flex-row align-middle">
 					<Icon src={MapPin} class="inline-block w-7 h-7 mt-1 " />
-					<input 
-					aria-invalid={$errors.location ? 'true' : undefined}
-					bind:value={$form.location} {...$constraints.location}
-					required type="text" name="location" id="location" autocomplete="off" />
+					<input
+						aria-invalid={$errors.location ? 'true' : undefined}
+						bind:value={$form.location}
+						{...$constraints.location}
+						required
+						type="text"
+						name="location"
+						id="location"
+						autocomplete="off"
+					/>
+					{#if $errors.location}<small class="invalid text-red-500 text-sm"
+							>{$errors.location}</small
+						>{/if}
 				</div>
 			</Section>
 
@@ -91,10 +120,20 @@
 			>
 				<div class="flex flex-row align-middle">
 					<Icon src={MusicalNote} class="inline-block w-7 h-7 mt-1.5" />
-					<input 
-					aria-invalid={$errors.openings_band ? 'true' : undefined}
-					bind:value={$form.openings_band} {...$constraints.openings_band}
-					required type="text" name="openings_band" id="openings_band" autocomplete="off" class="ml-2 w-full"/>
+					<input
+						aria-invalid={$errors.openings_band ? 'true' : undefined}
+						bind:value={$form.openings_band}
+						{...$constraints.openings_band}
+						required
+						type="text"
+						name="openings_band"
+						id="openings_band"
+						autocomplete="off"
+						class="ml-2 w-full"
+					/>
+					{#if $errors.openings_band}<small class="invalid text-red-500 text-sm"
+							>{$errors.openings_band}</small
+						>{/if}
 				</div>
 			</Section>
 
@@ -102,9 +141,18 @@
 				<div class="flex flex-row align-middle">
 					<Icon src={Pencil} class="inline-block w-7 h-7 mt-1.5 flex-none" />
 					<input
-					aria-invalid={$errors.title ? 'true' : undefined}
-					bind:value={$form.title} {...$constraints.title}
-					 required type="text" name="title" id="title" class="grow" autocomplete="off" />
+						aria-invalid={$errors.title ? 'true' : undefined}
+						bind:value={$form.title}
+						{...$constraints.title}
+						required
+						type="text"
+						name="title"
+						id="title"
+						class="grow"
+						autocomplete="off"
+					/>
+					{#if $errors.title}<small class="invalid text-red-500 text-sm">{$errors.title}</small
+						>{/if}
 				</div>
 			</Section>
 
@@ -113,7 +161,7 @@
 				description={'Please provide an additional details relating to the jam session below.'}
 			>
 				<textarea
-				required
+					required
 					name="description"
 					id="description"
 					cols="30"
@@ -121,7 +169,12 @@
 					placeholder="this this that, this bandmember, another bandmember..."
 					autocomplete="off"
 					style="white-space: pre-wrap;"
+					bind:value={$form.description}
+					{...$constraints.description}
 				/>
+				{#if $errors.description}<small class="invalid text-red-500 text-sm"
+						>{$errors.description}</small
+					>{/if}
 			</Section>
 
 			<Section
@@ -129,7 +182,8 @@
 				description={`Upload a picture or banner for the jam session. This will be displayed on the website.`}
 			>
 				<div class="flex items-center justify-center w-full">
-					<label for="file"
+					<label
+						for="file"
 						class="flex flex-col items-center justify-center w-full h-64 border-2 border-cinnabar-500 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
 					>
 						<div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -152,7 +206,17 @@
 							</p>
 							<p class="text-xs text-gray-500 dark:text-gray-400">WEBP (Max. 1920x1080)</p>
 						</div>
-						<input required id="file" name="file" type="file" class="hidden" accept=".png, .jpg" on:change={handleFileUpload}/>
+						<input
+							required
+							id="file"
+							name="file"
+							type="file"
+							class="hidden"
+							accept=".png, .jpg, .webp"
+							bind:value={$form.file} {...$constraints.file}
+						/>
+						{#if $errors.file}<small class="invalid text-red-500 text-sm">{$errors.file}</small
+							>{/if}
 					</label>
 				</div>
 			</Section>
@@ -162,10 +226,14 @@
 	<div class="ml-11 mr-2 mb-4 mt-4">
 		Press the button below to submit the jam session to the database.
 	</div>
-	<button type="submit" class="bg-cararra mx-auto text-log-cabin text-center font-medium text-xl px-2 rounded-lg h-12 w-full mb-2" on:submit={() => console.log()}>Add a new jam session</button>
+	<button
+		type="submit"
+		class="bg-cararra mx-auto text-log-cabin text-center font-medium text-xl px-2 rounded-lg h-12 w-full mb-2"
+		>Add a new jam session</button
+	>
 </form>
 
-<style lang="scss">
+<style lang="postcss">
 	:root {
 		--red: #df3f1f;
 	}
@@ -220,7 +288,6 @@
 		@apply font-light text-base;
 		border-radius: 14px;
 		@apply px-2;
-
 	}
 
 	textarea {
