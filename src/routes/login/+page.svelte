@@ -80,7 +80,7 @@
 
 	.login-button {
 		@apply py-2.5 px-5 mb-12 mt-4 w-full;
-		@apply text-sm font-medium text-gray-900;
+		@apply text-sm font-medium;
 		@apply rounded-lg border border-tulip-tree hover:bg-tulip-tree;
 	}
 </style>
