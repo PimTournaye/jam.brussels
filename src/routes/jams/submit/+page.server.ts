@@ -1,4 +1,3 @@
-import { supabaseClient } from '$lib/supabase';
 import type { Actions, PageServerLoad } from './$types';
 import { redirect, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
@@ -16,8 +15,6 @@ const schema = z.object({
 	file: z.any()
 });
 
-let userID: string;
-
 async function compressImage(inputBuffer: Buffer) {
 	return await sharp(inputBuffer)
 		.resize({ width: 800 }) // Resize image to desired dimensions
@@ -26,18 +23,12 @@ async function compressImage(inputBuffer: Buffer) {
 }
 
 export const load: PageServerLoad = async (event) => {
-	// Check if user is logged in and authenticated
-	const { session } = await event.parent();
-	if (!session) throw redirect(303, '/login');
-  
-	userID = session.user.id;
-
 	const form = await superValidate(event, schema);
 	return { form };
 };
 
 export const actions: Actions = {
-	default: async ({ request, locals: {session} }) => {
+	default: async ({ request }) => {
 		const formData = await request.formData();
 		const form = await superValidate(formData, schema);
 
@@ -51,37 +42,6 @@ export const actions: Actions = {
 		const fileBuffer = Buffer.from(await file.arrayBuffer());
 		const compressedImageBuffer = await compressImage(fileBuffer);
 
-		// Upload Buffer to supabase storage
-		const { data: imageData, error: imageError } = await supabaseClient.storage
-			.from('jams')
-			.upload(`${userID}/${file.name}`, compressedImageBuffer.buffer, {
-				cacheControl: '3600',
-				upsert: false
-			});
-
-		if (imageError) {
-      console.log('uploadError', imageError);
-      return fail(500, { form });
-    }
-    console.log('data from storage', imageData);
-    
-		//Insert the validated data into supabase
-		const insert = await supabaseClient
-			.from('jam_sessions')
-			.insert({
-				date: form.data.date,
-				startTime: form.data.startTime,
-				endTime: form.data.endTime,
-				location: form.data.location,
-				title: form.data.title,
-				description: form.data.description,
-				file: imageData.Key,
-				organizer: userID
-			})
-			.single();
-		if (insert.error) return fail(500, { form });
-    console.log('insert', insert, insert.data);
-    
 
 		return { form };
 	}

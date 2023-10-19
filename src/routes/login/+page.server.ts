@@ -1,53 +1,72 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { AuthApiError, type Provider } from '@supabase/supabase-js';
+// routes/signup/+page.server.ts
+import { auth } from "$lib/server/lucia";
 
-export const load: PageServerLoad = async (event) => {
-	const { session } = await event.parent();
-	if (session) throw redirect(303, '/');
+// Validation schema for form data
+import { z } from 'zod';
+import { superValidate, message } from 'sveltekit-superforms/server';
+
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8)
+});
+
+const registerSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+  confirmPassword: z.string().min(8),
+});
+
+
+export const load: PageServerLoad = async () => {
+	// Different schemas, so no id required.
+  const loginForm = await superValidate(loginSchema);
+  const registerForm = await superValidate(registerSchema);
+
+  // Return them both
+  return { loginForm, registerForm };
 };
 
-const OAUTH_PROVIDERS = ['google'] as const;
-
 export const actions: Actions = {
-	login: async ({ request, locals, url }) => {
-		const provider = url.searchParams.get('provider') as Provider;
+	login: async ({ request }) => {
+		console.log("login action");
+		
+		const loginForm = await superValidate(request, loginSchema);
 
-		if (provider) {
-			if (!OAUTH_PROVIDERS.includes(provider)) {
-				return fail(400, {
-					message: 'Invalid provider'
-				});
-			}
-			
-			const {data, error: err} = await locals.sb.auth.signInWithOAuth({provider: provider});
+    if (!loginForm.valid) return fail(400, { loginForm });
 
-			if (err) {
-				return fail(400, {
-					message: 'Something went wrong. Please try again later.'
-				})
-			}
-			throw redirect(303, data.url);
-		}
+    try {
+      const user = await auth.createUser({
+        key: {
+          providerId: 'email',
+          providerUserId: loginForm.data.email.toLowerCase(),
+          password: loginForm.data.password,
+        },
+        attributes: {
+          email: loginForm.data.email.toLowerCase(),
+          email_verified: Number(false)
+        }
+      })
+      const session = await auth.createSession({
+        userId: user.userId,
+        attributes: {},
+      });
+      locals.auth.session = session;
+      
+    } catch (error) {
+      console.log(error);
+      return message(loginForm, 'Something went wrong creating the account', { status:  });
+    }
+    return message(loginForm, 'Login form submitted');
+	},
 
+	register: async ({ request }) => {
+    const registerForm = await superValidate(request, registerSchema);
 
-		const body = Object.fromEntries(await request.formData());
-		const { data, error: err } = await locals.sb.auth.signInWithOtp({
-			email: body.email as string
-		});
+    if (!registerForm.valid) return fail(400, { registerForm });
 
-		if (err) {
-			if (err instanceof AuthApiError && err.status === 400) {
-				return fail(400, {
-					error: 'Invalid email address'
-				});
-			}
-
-			return fail(500, {
-				error: 'Internal server error. Please try again later.'
-			});
-		}
-
-		throw redirect(303, '/');
-	}
+    // TODO: Register user
+    return message(registerForm, 'Register form submitted');
+  }
 };

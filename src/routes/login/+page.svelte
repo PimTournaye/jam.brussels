@@ -1,86 +1,137 @@
 <script lang="ts">
-	import { supabaseClient } from '$lib/supabase';
-	import type { Provider } from '@supabase/supabase-js';
-	import type { PageData, SubmitFunction } from './$types';
-	import { enhance } from '$app/forms';
+	import type { PageData } from './$types';
+	import { superForm } from 'sveltekit-superforms/client';
 	export let data: PageData;
 
-	const signinWithProvider = async (provider: Provider) => {
-		const { data, error } = await supabaseClient.auth.signInWithOAuth({ provider: provider });
-		if (error) throw error;
-	};
+	const { form, errors, enhance, message } = superForm(data.loginForm, {
+		resetForm: true
+	});
 
-	const submitSocialLogin: SubmitFunction = async ({ action, cancel }) => {
-		switch (action.searchParams.get('provider')) {
-			case 'google':
-				await signinWithProvider('google');
-				break;
-			default:
-				break;
-		}
-		cancel();
-	};
+	const {
+		form: registerForm,
+		errors: registerErrors,
+		enhance: registerEnhance,
+		message: registerMessage
+	} = superForm(data.registerForm, {
+		resetForm: true
+	});
 </script>
 
 <svelte:head>
 	<title>Login - Jam.brussels</title>
 </svelte:head>
 
-<div id="login">
-	<h1 class=" text-6xl font-medium mb-16">Login</h1>
+<section>
+	<div id="login">
+		{#if $message}
+			<h3>{$message}</h3>
+		{/if}
+		<h1>Login</h1>
+		<form method="POST" action="?/login" use:enhance>
+			<label for="email">E-mail:</label>
+			<input name="email" type="email" bind:value={$form.email} />
+			<label for="password">Password:</label>
+			<input name="password" type="password" bind:value={$form.password} />
+			<button class="submit">Submit</button>
+		</form>
+	</div>
 
-	<form action="?/login" method="POST">
-		<label for="email" class="block text-gray-700 mb-2"> Register / Login with magic link</label>
-		<input
-			type="email"
-			name="email"
-			id="email"
-			placeholder="your@email.com"
-			required
-			class="w-full py-2 px-2 border-2 border-cinnabar focus:border-cinnabar-900 bg-log-cabin rounded-lg"
-		/>
-		<button
-			type="button"
-			class="login-button">Send magic link to mail</button
-		>
-	</form>
-
-	<form method="POST" use:enhance={submitSocialLogin}>
-		<button
-			formaction="?/login&provider=google"
-			type="button"
-			class="text-white bg-log-cabin border-solid border-2 border-cararra focus:ring-4 focus:outline-none rounded-lg p-8 text-center inline-flex items-center"
-		>
-			<svg
-				class="w-8 h-8"
-				aria-hidden="true"
-				focusable="false"
-				data-prefix="fab"
-				data-icon="google"
-				role="img"
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 488 512"
-				><path
-					fill="currentColor"
-					d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
-				/></svg
+	<div id="oauth">
+		<div class="flex items-center justify-center bg-gray-100 dark:bg-gray-700">
+			<button
+				class="flex w-full justify-center items-center bg-white dark:bg-gray-900 border border-gray-300 rounded-lg shadow-md px-6 py-2 text-sm font-medium text-gray-800 dark:text-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
 			>
-		</button>
-	</form>
-</div>
+				<svg
+					class="h-6 w-6 mr-2"
+					xmlns="http://www.w3.org/2000/svg"
+					xmlns:xlink="http://www.w3.org/1999/xlink"
+					width="800px"
+					height="800px"
+					viewBox="-0.5 0 48 48"
+					version="1.1"
+				>
+					<title>Google-color</title> <desc>Created with Sketch.</desc> <defs />
+					<g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+						<g id="Color-" transform="translate(-401.000000, -860.000000)">
+							<g id="Google" transform="translate(401.000000, 860.000000)">
+								<path
+									d="M9.82727273,24 C9.82727273,22.4757333 10.0804318,21.0144 10.5322727,19.6437333 L2.62345455,13.6042667 C1.08206818,16.7338667 0.213636364,20.2602667 0.213636364,24 C0.213636364,27.7365333 1.081,31.2608 2.62025,34.3882667 L10.5247955,28.3370667 C10.0772273,26.9728 9.82727273,25.5168 9.82727273,24"
+									id="Fill-1"
+									fill="#FBBC05"
+								/>
+								<path
+									d="M23.7136364,10.1333333 C27.025,10.1333333 30.0159091,11.3066667 32.3659091,13.2266667 L39.2022727,6.4 C35.0363636,2.77333333 29.6954545,0.533333333 23.7136364,0.533333333 C14.4268636,0.533333333 6.44540909,5.84426667 2.62345455,13.6042667 L10.5322727,19.6437333 C12.3545909,14.112 17.5491591,10.1333333 23.7136364,10.1333333"
+									id="Fill-2"
+									fill="#EB4335"
+								/>
+								<path
+									d="M23.7136364,37.8666667 C17.5491591,37.8666667 12.3545909,33.888 10.5322727,28.3562667 L2.62345455,34.3946667 C6.44540909,42.1557333 14.4268636,47.4666667 23.7136364,47.4666667 C29.4455,47.4666667 34.9177955,45.4314667 39.0249545,41.6181333 L31.5177727,35.8144 C29.3995682,37.1488 26.7323182,37.8666667 23.7136364,37.8666667"
+									id="Fill-3"
+									fill="#34A853"
+								/>
+								<path
+									d="M46.1454545,24 C46.1454545,22.6133333 45.9318182,21.12 45.6113636,19.7333333 L23.7136364,19.7333333 L23.7136364,28.8 L36.3181818,28.8 C35.6879545,31.8912 33.9724545,34.2677333 31.5177727,35.8144 L39.0249545,41.6181333 C43.3393409,37.6138667 46.1454545,31.6490667 46.1454545,24"
+									id="Fill-4"
+									fill="#4285F4"
+								/>
+							</g>
+						</g>
+					</g>
+				</svg>
+				<span>Login or Register with Google</span>
+			</button>
+		</div>
+	</div>
+
+	<div id="register">
+		{#if $registerMessage}
+			<h3>{$registerMessage}</h3>
+		{/if}
+		<h1>Register</h1>
+		<form method="POST" action="?/register" use:registerEnhance>
+			E-mail: <input name="email" type="email" bind:value={$registerForm.email} />
+			<label for="password">Password:</label>
+			<input name="password" type="password" bind:value={$registerForm.password} />
+			<label for="confirmPassword">Confirm password:</label>
+			<input name="confirmPassword" type="password" bind:value={$registerForm.confirmPassword} />
+			<button class="submit">Submit</button>
+		</form>
+	</div>
+</section>
 
 <style lang="postcss">
-	#login {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		height: 100vh;
+	/* Layout */
+	section {
+		@apply flex flex-col mx-4;
+		@apply h-full;
 	}
 
-	.login-button {
-		@apply py-2.5 px-5 mb-12 mt-4 w-full;
-		@apply text-sm font-medium;
-		@apply rounded-lg border border-tulip-tree hover:bg-tulip-tree;
+	/* Form elements */
+	form {
+		@apply flex flex-col;
+		@apply w-full;
+	}
+
+	label {
+		@apply text-lg font-light mb-2;
+		@apply text-cararra-600;
+		@apply w-full;
+	}
+
+	input {
+		@apply border border-x-log-cabin-500 rounded-md px-4 py-2 mb-4 bg-log-cabin-900 ;
+	}
+
+	.submit {
+		@apply bg-log-cabin-500 rounded-md px-4 py-2;
+	}
+
+	/* Other stuff */
+	h1 {
+		@apply text-4xl font-medium mb-6;
+	}
+
+	#oauth {
+		@apply my-4
 	}
 </style>

@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { Icon } from "@steeze-ui/svelte-icon";
-  import { MapPin } from '@steeze-ui/heroicons';
-
+  import Icon from '@iconify/svelte';
   export let title: string;
   export let location: string;
   export let date: string;
@@ -13,7 +11,7 @@
   <div>
     <h3 class="text-cinnabar text-lg font-bold">{title}</h3>
     <p class="flex flex-row items-center">
-      <Icon src={MapPin} class="w-4 h-4 inline-block mr-1.5 mb-0.5" theme='outline'/>
+      <Icon icon="lucide:map-pin" width="16" height="16" class="mr-1.5 mb-0.5" />
       {location}</p>
   </div>
   <p class="text-tulip-tree text-xl my-auto">{date}</p>

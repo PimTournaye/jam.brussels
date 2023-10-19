@@ -2,24 +2,25 @@
 // for information about these interfaces
 // and what to do when importing types
 
-import type { TypedSupabaseClient } from '@supabase/auth-helpers-sveltekit';
-import type { Session } from '@supabase/supabase-js';
-
+/// <reference types="lucia" />
 declare global {
-	declare namespace App {
-		interface Supabase {
-			Database: import('./DatabaseDefinitions').Database;
-			SchemaName: 'public';
-		}
-
+	namespace Lucia {
+		type Auth = import("$lib/server/lucia").Auth;
+		type DatabaseUserAttributes = {
+			email: string;
+			email_verified: number;
+		};
+		type DatabaseSessionAttributes = Record<string, never>;
+	};
+}
+declare global {
+	namespace App {
 		interface Locals {
-      sb: TypedSupabaseClient,
-      session: Session | null
-    }
-		interface PageData {
-			session: import('@supabase/supabase-js').Session | null;
+			auth: import('lucia').AuthRequest;
 		}
-		// interface Error {}
-		// interface Platform {}
 	}
 }
+
+
+// THIS IS IMPORTANT!!!
+export { };

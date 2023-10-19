@@ -48,14 +48,15 @@
 	<title>Jam sessions - Jam.brussels</title>
 </svelte:head>
 
-<section class="bg-log-cabin mx-0.5">
-	{#each Object.entries(sortedJams) as [month, objects]}
-
-		<h2 class="text-2xl font-bold mt-8 text-cararra ml-4 mb-2">{month}</h2>
-		{#each objects as { title, date, location, id }}
-			<CompactJamCard {title} {date} {location} {id} />
+<section class="bg-log-cabin mx-0.5 flex flex-col">
+	<div>
+		{#each Object.entries(sortedJams) as [month, objects]}
+			<h2 class="text-2xl font-bold  text-cararra ml-4 mb-2">{month}</h2>
+			{#each objects as { title, date, location, id }}
+				<CompactJamCard {title} {date} {location} {id} />
+			{/each}
 		{/each}
-	{/each}
+	</div>
 
 	<div class="text-cararra text-lg mx-auto px-4">
 		Jam sessions displayed here are limited to the next 6 months.
