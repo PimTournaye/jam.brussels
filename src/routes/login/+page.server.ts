@@ -6,6 +6,7 @@ import { auth } from "$lib/server/lucia";
 // Validation schema for form data
 import { z } from 'zod';
 import { superValidate, message } from 'sveltekit-superforms/server';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -19,7 +20,11 @@ const registerSchema = z.object({
 });
 
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ locals }) => {
+  // If the user is already logged in, redirect them to the home page
+  const session = await locals.auth.validate();
+	if (session) throw redirect(302, "/"); 
+
 	// Different schemas, so no id required.
   const loginForm = await superValidate(loginSchema);
   const registerForm = await superValidate(registerSchema);
@@ -30,13 +35,22 @@ export const load: PageServerLoad = async () => {
 
 export const actions: Actions = {
 	login: async ({ request }) => {
-		console.log("login action");
-		
-		const loginForm = await superValidate(request, loginSchema);
+    const registerForm = await superValidate(request, registerSchema);
 
+    if (!registerForm.valid) return fail(400, { registerForm });
+
+    // TODO: Register user
+    return message(registerForm, 'Register form submitted');
+  },
+
+  register: async ({ request, locals }) => {
+		console.log("login action");
+		// Validate the form data
+		const loginForm = await superValidate(request, loginSchema);
     if (!loginForm.valid) return fail(400, { loginForm });
 
     try {
+      // Create the user
       const user = await auth.createUser({
         key: {
           providerId: 'email',
@@ -45,28 +59,23 @@ export const actions: Actions = {
         },
         attributes: {
           email: loginForm.data.email.toLowerCase(),
-          email_verified: Number(false)
         }
       })
+      // Create the session so the user is logged in
       const session = await auth.createSession({
         userId: user.userId,
         attributes: {},
       });
-      locals.auth.session = session;
-      
+      // Store the session in the session storage
+      locals.auth.setSession(session)
     } catch (error) {
-      console.log(error);
-      return message(loginForm, 'Something went wrong creating the account', { status:  });
+      // Check for database errors
+      if (error instanceof PrismaClientKnownRequestError) {
+        return message(loginForm, `Error: ${error.code}, ${error.meta} ${error.message}`, { status: 409 });
+      }
+      // Catch all other errors
+      return message(loginForm, 'Something went wrong creating the account', { status: 500 });
     }
     return message(loginForm, 'Login form submitted');
 	},
-
-	register: async ({ request }) => {
-    const registerForm = await superValidate(request, registerSchema);
-
-    if (!registerForm.valid) return fail(400, { registerForm });
-
-    // TODO: Register user
-    return message(registerForm, 'Register form submitted');
-  }
 };
