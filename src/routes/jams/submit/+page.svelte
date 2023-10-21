@@ -1,15 +1,14 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import Section from '$lib/form/Section.svelte';
-	import { Icon } from '@steeze-ui/svelte-icon';
 	import { Clock, Calendar, MapPin, MusicalNote, Pencil } from '@steeze-ui/heroicons';
 	import { superForm } from 'sveltekit-superforms/client';
+
+	
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
 	export let data: PageData;
 	const { form, errors, constraints, enhance } = superForm(data.form);
-
-	console.log(data.session);
 	
 </script>
 

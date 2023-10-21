@@ -1,10 +1,18 @@
+import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad, Actions } from "./$types";
-import { z } from "zod";
 
-const schema = z.object({
-	username: z.string(),
-});
+export const load: PageServerLoad = async ({ locals }) => {
+	const session = await locals.auth.validate();
+	if (!session) throw redirect(302, "/login");
 
-export const load: PageServerLoad = async () => {
-	return { disable: true };
-};
+	return {
+		status: 200,
+		body: {
+			profile: {
+				id: session.userId,
+				email: session.attributes.email,
+			},
+		},
+	};
+}
+

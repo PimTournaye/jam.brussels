@@ -22,9 +22,13 @@ async function compressImage(inputBuffer: Buffer) {
 		.toBuffer(); // Convert the processed image back to a buffer
 }
 
-export const load: PageServerLoad = async (event) => {
-	const form = await superValidate(event, schema);
-	return { form };
+export const load: PageServerLoad = async ({ locals }) => {
+	const session = await locals.auth.validate();
+	if (!session) throw redirect(302, '/login');
+
+
+	// const form = await superValidate(event, schema);
+	// return { form };
 };
 
 export const actions: Actions = {

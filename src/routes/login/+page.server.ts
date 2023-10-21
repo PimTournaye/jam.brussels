@@ -1,14 +1,16 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-// routes/signup/+page.server.ts
-import { auth } from "$lib/server/lucia";
 
 // Validation schema for form data
 import { z } from 'zod';
 import { superValidate, message } from 'sveltekit-superforms/server';
+
+// Authentication
+import { auth } from "$lib/server/lucia";
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { LuciaError } from 'lucia';
 
+// Validation schema for form data
 const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8)
@@ -18,8 +20,10 @@ const registerSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   confirmPassword: z.string().min(8),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
 });
-
 
 export const load: PageServerLoad = async ({ locals }) => {
   // If the user is already logged in, redirect them to the home page
@@ -63,21 +67,25 @@ export const actions: Actions = {
   },
 
   register: async ({ request, locals }) => {
-    console.log("login action");
+    console.log("register action");
     // Validate the form data
     const registerForm = await superValidate(request, registerSchema);
     if (!registerForm.valid) return fail(400, { registerForm });
+    console.log("register form valid");
+
+    const email = registerForm.data.email;
+    const password = registerForm.data.password;
 
     try {
       // Create the user
       const user = await auth.createUser({
         key: {
           providerId: 'email',
-          providerUserId: registerForm.data.email.toLowerCase(),
-          password: registerForm.data.password,
+          providerUserId: email.toLowerCase(),
+          password
         },
         attributes: {
-          email: registerForm.data.email.toLowerCase(),
+          email: email,
         }
       })
       // Create the session so the user is logged in
@@ -88,8 +96,10 @@ export const actions: Actions = {
       // Store the session in the session storage
       locals.auth.setSession(session);
     } catch (error) {
+      console.log("error", error);
       // Check for database errors
       if (error instanceof PrismaClientKnownRequestError) {
+        console.log("prisma error", error);
         return message(registerForm, `Error: ${error.code}, ${error.meta} ${error.message}`, { status: 409 });
       }
       // Catch all other errors

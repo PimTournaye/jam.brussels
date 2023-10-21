@@ -11,10 +11,9 @@ datasource db {
 }
 
 model User {
-  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  id              String        @id @map("_id")
   email           String        @unique
-  password        String
-  name            String
+  name            String?       @unique
   createdSessions JamSession[]  @relation("createdSessions")
   // Auth Stuff
   auth_session    AuthSession[]
@@ -34,14 +33,14 @@ model JamSession {
   location    String
   // Keep track of who created the jam session
   author      User     @relation("createdSessions", fields: [authorId], references: [id])
-  authorId    String   @db.ObjectId
+  authorId    String   //@db.ObjectId
   // Keep track of who is attending the jam session
 }
 
 // Auth Stuff
 model AuthSession {
   id             String @id @map("_id")
-  user_id        String @db.ObjectId
+  user_id        String //@db.ObjectId
   active_expires BigInt
   idle_expires   BigInt
   user           User   @relation(references: [id], fields: [user_id], onDelete: Cascade)
@@ -52,7 +51,7 @@ model AuthSession {
 model Key {
   id              String  @id @map("_id")
   hashed_password String?
-  user_id         String  @db.ObjectId
+  user_id         String  //@db.ObjectId
   user            User    @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
   @@index([user_id])
