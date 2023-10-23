@@ -91,6 +91,7 @@
 			name="location"
 			id="location"
 			autocomplete="off"
+			style="text-align: left;"
 			/>
 			<span>
 				<Icon icon="lucide:map-pin" class="inline-block w-5 h-5 text-log-cabin" />

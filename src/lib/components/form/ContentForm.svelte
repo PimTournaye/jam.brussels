@@ -17,9 +17,9 @@
 		image: z.any()
 	});
 
-	type DetailSchema = typeof schema;
+	type ContentSchema = typeof schema;
 
-	export let data: SuperValidated<DetailSchema>;
+	export let data: SuperValidated<ContentSchema>;
 
 	const { form, errors, constraints, enhance } = superForm(data);
 </script>
@@ -136,7 +136,7 @@
 		@apply rounded-md;
 		@apply bg-cadet-grey text-log-cabin;
 		@apply border-2 border-cadet-grey;
-		@apply text-lg text-center;
+		@apply text-lg;
 		@apply focus:border-cinnabar;
 		@apply focus:outline-none;
 		@apply transition-all duration-200;
