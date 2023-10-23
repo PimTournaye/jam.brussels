@@ -21,7 +21,7 @@
 	const {session} = data;
 </script>
 
-<header class="bg-log-cabin sticky top-0">
+<header class="bg-log-cabin stivky top-0 grow-0">
 	<div class="flex justify-between h-20 pl-2 pr-4 py-5 bg-log-cabin">
 		<Hamburger {open} {onClick} />
 		<div class="logo">

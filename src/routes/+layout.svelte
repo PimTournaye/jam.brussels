@@ -7,6 +7,6 @@
 
 <Header {data} />
 
-<main class="">
+<main>
 	<slot />
 </main>
