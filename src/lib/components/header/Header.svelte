@@ -21,7 +21,7 @@
 	const {session} = data;
 </script>
 
-<header class="bg-log-cabin sticky top-0">
+<header class="bg-log-cabin stivky top-0 grow-0">
 	<div class="flex justify-between h-20 pl-2 pr-4 py-5 bg-log-cabin">
 		<Hamburger {open} {onClick} />
 		<div class="logo">
@@ -33,12 +33,13 @@
 
 	{#if open}
 		<nav
-		in:fade={{ duration: 100 }}
+		in:fade={{ duration: 300 }}
 		out:fade={{ duration: 100 }}
 			class="flex flex-col absolute
 		space-y-12
 		px-4 pt-8 h-screen w-screen
 		backdrop-blur-xl bg-opacity-50 bg-black
+		transform transition-all ease-in-out duration-300
 		"
 		>
 			<div
@@ -47,9 +48,9 @@
 			line line--m2"
 			>
 				{#if !session}
-				<a href="/login" class="station station--default">Login / Signup</a>
-				{:else}
-				<a href="/profile" class="station station--default">Profile</a>
+				<a href="/login" class="station station--default">Login or Register</a>
+				<!-- {:else} -->
+				<!-- <a href="/profile" class="station station--default">Profile</a> -->
 				{/if}
 				<a href="/jams" class="station station--default">Jams</a>
 				<a href="/jams/submit" class="station station--default">Submit Jam Session</a>

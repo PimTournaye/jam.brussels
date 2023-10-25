@@ -39,21 +39,18 @@
 		<li>iCal / Google Calender integration</li>
 		<li>Google Maps integration</li>
 		<li>More languages</li>
+		<li>More login options (probably only Apple though, unless someone really needs a different login option)</li>
 	</section>
 
 	<section>
 		<h2 class="text-2xl font-bold">Where can I find more information?</h2>
 		<p>
 			For more information, please visit my website:
-			<a href="https://pimtournaye.xyz" target="_blank" class="text-blue-500 underline"
-				>pimtournaye.xyz</a
-			>.
+			<a href="https://pimtournaye.xyz" target="_blank" rel="noreferrer" class="text-cararra underline">pimtournaye.xyz</a>.
 		</p>
 		<p>
 			If you have any requests or additional questions, please feel free to reach out via email at
-			<a href="mailto:pimtournaye1@gmail.com" class="text-blue-500 underline"
-				>pimtournaye1@gmail.com</a
-			>.
+			<a href="mailto:pimtournaye1@gmail.com" class="text-cararra underline">pimtournaye1@gmail.com</a>.
 		</p>
 	</section>
 </main>
@@ -64,6 +61,10 @@
 	}
 
 	h2 {
-		@apply mb-2;
+		@apply mb-2 text-cararra font-medium;
+	}
+
+	p, li {
+		@apply text-cararra-800
 	}
 </style>

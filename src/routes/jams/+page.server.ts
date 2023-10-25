@@ -1,12 +1,7 @@
-import type { PageServerLoad } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async () => {
-	const response = await fetch('/api/jams');
-	const jams = await response.json();
-	return {
-		status: response.status,
-        body: {
-            jams
-        }
-	};
+export const load: PageServerLoad = async (event) => {
+	
+	return {}
 };
+

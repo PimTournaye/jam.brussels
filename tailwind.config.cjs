@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{html,js,svelte,ts}'],
+  
   theme: {
     extend: {},
     colors: {
@@ -58,6 +59,9 @@ module.exports = {
         '800': '#D3D6C5',
         '900': '#BABEA5'
       },
+      'cadet-grey': { // GREY
+        DEFAULT: '#A2AEBB',
+      }
     },
     plugins: [],
   }

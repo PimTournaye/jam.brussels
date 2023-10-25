@@ -1,28 +1,18 @@
-import { supabaseClient } from "$lib/supabase";
-import { getSupabase } from "@supabase/auth-helpers-sveltekit";
-import { redirect, error } from "@sveltejs/kit";
+import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad, Actions } from "./$types";
 
-export const load: PageServerLoad = async (event) => {
-	const { supabaseClient, session } = await getSupabase(event);
-	if (!session) throw redirect(303, "/login");
+export const load: PageServerLoad = async ({ locals }) => {
+	const session = await locals.auth.validate();
+	if (!session) throw redirect(302, "/login");
 
-	const {data, error} = await supabaseClient.from('profiles').select('id, username').single()
-	return { profile: data };
-};
+	return {
+		status: 200,
+		body: {
+			profile: {
+				id: session.userId,
+				email: session.attributes.email,
+			},
+		},
+	};
+}
 
-export const actions: Actions = {
-	default: async (event) => {
-		const { supabaseClient, session } = await getSupabase(event);
-		if (!session) return error(401, 'You must be logged in to do this.');
-
-		const formData = await event.request.formData();
-		const username = formData.get('username');
-
-		if(!username || typeof username !== 'string') return error(400, 'You must specify a username');
-
-		const {error} = await supabaseClient.from('profiles').update({username: username}).match({id: session.user.id});
-
-		if (error) return error(400, 'Was not able to update username.');
-	}
-};
