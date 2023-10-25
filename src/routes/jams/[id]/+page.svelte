@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { faker } from '@faker-js/faker';
-	import JamSessionDetails from '$lib/components/JamSessionDetails.svelte';
+	import JamSessionDetails from '$lib/components/jam/JamSessionDetails.svelte';
 
 	export let data: PageData;
 	let userID: string | null;

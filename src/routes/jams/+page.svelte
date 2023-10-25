@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import CompactJamCard from '$lib/components/CompactJamCard.svelte';
+	import CompactJamCard from '$lib/components/jam/CompactJamCard.svelte';
 
 	export let data: PageData;
 
