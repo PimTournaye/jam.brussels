@@ -1,16 +1,21 @@
-import { PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
 // import { PrismaClient } from '@prisma/client/edge'
 export const prisma = new PrismaClient()
 
-async function main() {
-  // ... you will write your Prisma Client queries here
+export async function addJamSession(data: Prisma.JamSessionCreateInput) {
+  const { date, startTime, endTime, location, title, openingBand, description, image, author } = data
+  const jamSession = await prisma.jamSession.create({
+    data: {
+      date,
+      startTime,
+      endTime,
+      location,
+      title,
+      openingBand,
+      description,
+      image,
+      author
+    },
+  });
+  return jamSession
 }
-
-main()
-  .catch(async (e) => {
-    console.error(e)
-    process.exit(1)
-  })
-  .finally(async () => {
-    await prisma.$disconnect()
-  })

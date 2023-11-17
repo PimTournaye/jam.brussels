@@ -6,6 +6,7 @@
 	export let label: string;
 	export let inputType: string;
 	export let icon: string;
+	export let name: string;
 	export let description: string;
 	export let errors: any  = undefined;
 	export let constraints: InputConstraint | undefined = undefined;
@@ -22,7 +23,7 @@
 	<div class="input-group">
 		<input
 			use:typeAction
-			name={label}
+			name={name}
 			id={label}
 			bind:value
 			aria-invalid={errors ? 'true' : undefined}
@@ -31,7 +32,7 @@
 		/>
 		<span><Icon icon={icon} class="inline-block w-5 h-5 text-log-cabin" /></span>
 	</div>
-	{#if errors}<small class="invalid text-red-500 text-sm">{errors}</small>{/if}
+	{#if errors}<small class="text-red-500 text-sm">{errors}</small>{/if}
 	<p>{description}</p>
 </div>
 

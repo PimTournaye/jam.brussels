@@ -1,22 +1,18 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
 	import Input from './Input.svelte';
-	import { superForm } from 'sveltekit-superforms/client';
-
-	export let data;
-	const { form, errors, constraints } = superForm(data.form)
-
-	$: console.log($form);
 	
+	export let form, errors, constraints;
 </script>
 
-<form method="POST" enctype="multipart/form-data">
+<div id="form">
 	<!-- Title -->
 	<Input
 		label="Title"
 		icon="lucide:pencil-line"
 		description="What is your jam session called?"
 		inputType="text"
+		name="title"
 		bind:value={$form.title}
 		constraints={$constraints.title}
 		errors={$errors.title}
@@ -28,9 +24,10 @@
 		icon="lucide:music"
 		description="What is the name of your band?"
 		inputType="text"
-		bind:value={$form.bandName}
-		constraints={$constraints.bandName}
-		errors={$errors.bandName}
+		name="openingBand"
+		bind:value={$form.openingBand}
+		constraints={$constraints.openingBand}
+		errors={$errors.openingBand}
 		/>
 
 	<!-- Description -->
@@ -50,9 +47,7 @@
 				{...$constraints.description}
 			/>
 		</div>
-		{#if $errors.description}<small class="invalid text-red-500 text-sm"
-				>{$errors.description}</small
-			>{/if}
+		{#if $errors.description}<small class="text-red-500 text-sm">{$errors.description}</small>{/if}
 		<p>Please provide an additional details relating to the jam session above.</p>
 	</div>
 
@@ -74,18 +69,17 @@
 			/>
 			<span><Icon icon="lucide:camera" class="inline-block w-5 h-5 text-log-cabin" /></span>
 		</div>
-		{#if $errors.image}<small class="invalid text-red-500 text-sm">{$errors.image}</small>{/if}
+		{#if $errors.image}<small class="text-red-500 text-sm">{$errors.image}</small>{/if}
 		<p>Upload a picture or banner for the jam session. This will be displayed on the website.</p>
-		<p>
+		<!-- <p>
 			AVIF, WEBP, JPG or PNG. Try using tools like <a href="https://squoosh.app/">Squoosh</a> to reduce
 			file size while maintaining image quality.
-		</p>
-		<div id="img" />
+		</p> -->
 	</div>
-</form>
+</div>
 
 <style lang="postcss">
-	form {
+	#form {
 		@apply flex flex-col;
 		@apply w-full;
 	}

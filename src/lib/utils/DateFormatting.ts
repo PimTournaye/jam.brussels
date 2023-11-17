@@ -1,14 +1,26 @@
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-export const formatFullDate = (date: Date) => {
+/**
+ *  print out data in format 'Sat Nov 14, 2020'
+ * @param date 
+ * @returns string
+ */
+export const formatFullDate = (date: Date | string) => {
+  // If input is type string, convert it to type Date ie. 2333-02-11 -> Date(2333-02-11)
+  if (typeof date === 'string') date = new Date(Date.parse(date))
   const month = months[date.getMonth()]
   const day = days[date.getDay()]
   const year = date.getFullYear()
   return `${month} ${day}, ${year}`
 }
 
-// print out data in format 'Sat Nov 14'
+
+/**
+ *  print out time of the input date in format '12:00am'
+ * @param date 
+ * @returns string
+ */
 export const formatFullTime = (date: Date) => {
   const hours = date.getHours()
   const minutes = date.getMinutes()
@@ -19,9 +31,15 @@ export const formatFullTime = (date: Date) => {
   return `${hour}:${min}${ampm}`
 }
 
-// print out data in format 'Sat Nov 14'
-export const formatShortDate = (date: Date) => {
-    const month = months[date.getMonth()]
+/**
+ *  print out data in format 'Sat Nov 14'
+ * @param date 
+ * @returns string
+ */
+export const formatShortDate = (date: Date | string) => {
+  // If input is type string, convert it to type Date ie. 2333-02-11 -> Date(2333-02-11)
+  if (typeof date === 'string') date = new Date(Date.parse(date))
+  const month = months[date.getMonth()]
   const day = `${days[date.getDay()]} ${date.getDate()}`
   return `${day} ${month}`
 }

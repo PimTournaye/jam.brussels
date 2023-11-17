@@ -1,25 +1,20 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-
-	import type { SuperValidated } from 'sveltekit-superforms';
-	import type { DetailsSchema } from '$lib/schemas';
-	import { superForm } from 'sveltekit-superforms/client';
 	import Input from './Input.svelte';
-
-	export let data;
-	// export let data: SuperValidated<DetailsSchema>;
-
-	const { form, errors, constraints } = superForm(data.form)
+	import { dateProxy } from 'sveltekit-superforms/client';
+	export let form, errors, constraints;
+	const proxyDate = dateProxy(form, 'date', { format: 'date' });
 </script>
 
-<form method="POST">
+<div id="form">
 	<!-- Date -->
 	<Input 
 	label="Date" 
 	icon="lucide:calendar" 
 	description="What day is the jam taking place?" 
 	inputType="date"
-	bind:value={$form.date}
+	name="date"
+	bind:value={$proxyDate}
 	constraints={$constraints.date}
 	errors={$errors.date}
 	/>
@@ -52,8 +47,8 @@
 				<Icon icon="lucide:clock" class="inline-block w-5 h-5 text-log-cabin" />
 			</span>
 		</div>
-		{#if $errors.startTime}<small class="invalid text-red-500 text-sm">{$errors.startTime}</small>{/if}
-		{#if $errors.endTime}<small class="invalid text-red-500 text-sm">{$errors.endTime}</small>{/if}
+		{#if $errors.startTime}<small class="text-red-500 text-sm">{$errors.startTime}</small>{/if}
+		{#if $errors.endTime}<small class="text-red-500 text-sm">{$errors.endTime}</small>{/if}
 		<p>At what time is the jam taking place?</p>
 	</div>
 
@@ -63,14 +58,15 @@
 		icon="lucide:map-pin"
 		description="Where is the jam taking place?"
 		inputType="text"
+		name="location"
 		bind:value={$form.location}
 		constraints={$constraints.location}
 		errors={$errors.location}
 	/>
-</form>
+</div>
 
 <style lang="postcss">
-	form {
+	#form {
 		@apply flex flex-col;
 		@apply w-full;
 	}
